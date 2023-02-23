@@ -10,7 +10,7 @@ Vue.toasted.register('my_app_error', 'Please enter correct username && password'
     // type : 'error',
     // icon : 'hourglass_empty',
     theme: "bubble", 
-    position: "top-right", 
+    position: "top-center", 
     duration : 5000,
     icon:"error_outline"
    

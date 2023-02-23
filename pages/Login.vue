@@ -26,28 +26,28 @@
               <v-card-text>
                 <v-form 
                   ref="loginForm" 
-                  v-model="valid" 
+                  v-model="valid1" 
                   lazy-validation>
                   <v-row>
                     <v-col cols="12">
                       <v-text-field
-                        v-model="email"
+                        v-model="username"
                         :rules="loginEmailRules"
-                        label="username"
+                        label="*username"
                         required
                       />
                     </v-col>
                     <v-col cols="12">
                       <v-text-field
-                        v-model="password"
-                        :append-icon="show1 ? 'eye' : 'eye-off'"
+                        v-model="loginpassword"
+                        :append-icon="show3 ? 'mdi-eye' : 'mdi-eye-off'"
                         :rules="[rules.required, rules.min]"
-                        :type="show1 ? 'text' : 'password'"
+                        :type="show3 ? 'text' : 'password'"
                         name="input-10-1"
-                        label="Password"
+                        label="*Password"
                         hint="At least 6 characters"
                         counter
-                        @click:append="show1 = !show1"
+                        @click:append="show3 = !show3"
                       />
                     </v-col>
                     <v-col 
@@ -63,7 +63,7 @@
                       xsm="12" 
                       align-end>
                       <v-btn
-                        :disabled="!valid"
+                        :disabled="!valid1"
                         x-large
                         block
                         color="success"
@@ -113,7 +113,7 @@
                       <v-text-field
                         v-model="email"
                         :rules="emailRules"
-                        label="E-mail"
+                        label="*E-mail"
                         required
                       />
                     </v-col>
@@ -124,7 +124,7 @@
                         :rules="[rules.required, rules.min]"
                         :type="show1 ? 'text' : 'password'"
                         name="input-10-1"
-                        label="Password"
+                        label="*Password"
                         hint="At least 8 characters"
                         counter
                         @click:append="show1 = !show1"
@@ -133,14 +133,14 @@
                     <v-col cols="12">
                       <v-text-field
                         v-model="verify"
-                        :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                        :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
                         :rules="[rules.required, passwordMatch]"
-                        :type="show1 ? 'text' : 'password'"
+                        :type="show2 ? 'text' : 'password'"
                         block
                         name="input-10-1"
-                        label="Confirm Password"
+                        label="*Confirm Password"
                         counter
-                        @click:append="show1 = !show1"
+                        @click:append="show2 = !show2"
                       />
                     </v-col>
                     <v-spacer />
@@ -154,7 +154,7 @@
                         x-large
                         block
                         color="success"
-                        @click="validate"
+                        @click="register"
                       >Register</v-btn
                       >
                     </v-col>
@@ -181,13 +181,14 @@ export default {
         { name: "Register", icon: "mdi-account-outline" },
       ],
       username: "",
+      loginpassword: "",
       password: "",
       valid: true,
+      valid1:true,
       firstName: "",
       lastName: "",
       email: "",
       verify: "",
-      loginPassword: "",
       loginEmail: "",
       loginEmailRules: [
         (v) => !!v || "Required",
@@ -199,9 +200,11 @@ export default {
       ],
 
       show1: false,
+      show2: false,
+      show3: false,
       rules: {
         required: (value) => !!value || "Required.",
-        min: (v) => (v && v.length >= 6) || "Min 8 characters",
+        min: (v) => (v && v.length >= 6) || "Min 6 characters",
       },
     };
   },
@@ -211,26 +214,39 @@ export default {
       return () => this.password === this.verify || "Password must match";
     },
   },
-  methods: {
-    // login() {
-    //   localStorage.setItem("username", this.username);
-    //   localStorage.setItem("password", this.loginPassword);
-    //   this.$router.push("/home");
-    // },
-    validate() {
-      if (this.$refs.loginForm.validate()) {
-        // submit form to server/API here...
-        localStorage.setItem("username", this.email);
-        localStorage.setItem("password", this.password);
-        this.$router.push("/home");
-      }
-    },
-    reset() {
+  watch: {
+    dialog() {
       this.$refs.form.reset();
-    },
-    resetValidation() {
       this.$refs.form.resetValidation();
     },
   },
+
+  methods: {
+    validate() {
+      if (this.$refs.loginForm.validate()) {
+        // submit form to server/API here...
+        localStorage.setItem("username", this.username);
+        localStorage.setItem("password", this.loginpassword);
+        this.$router.push("/home");
+      }
+    },
+    register() {
+      localStorage.setItem("username", this.email);
+      localStorage.setItem("password", this.password);
+      this.$router.push("/home");
+    },
+    // reset() {
+    //   this.$refs.form.reset();
+    // },
+    // resetValidation() {
+    //   this.$refs.form.resetValidation();
+    // },
+  },
 };
 </script>
+<style scoped>
+div[aria-required="true"].v-input .v-label::after {
+  content: " *";
+  color: red;
+}
+</style>

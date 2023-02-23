@@ -1,16 +1,12 @@
 <template>
   <div>
-    <Header/>
-    <Main>
+    <main>
       <nuxt />
-    </Main>
-    <componentCFooter/>
+    </main>
   </div>
 </template>
 <script>
-
-export default {
-};
+export default {};
 </script>
 <style>
 html {

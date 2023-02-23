@@ -2,6 +2,8 @@ import Vue from "vue";
 import Vuetify from "vuetify";
 
 //import colors from './../config/colors'
+import '@fortawesome/fontawesome-free/css/all.css'
+import 'material-design-icons-iconfont/dist/material-design-icons.css' 
 import colors from "vuetify/lib/util/colors";
 
 import "vuetify/dist/vuetify.min.css";
@@ -10,6 +12,9 @@ Vue.use(Vuetify);
 
 export default (ctx) => {
   const vuetify = new Vuetify({
+    icons: {
+      iconfont: 'fa' || 'md',
+    },
     theme: {
       themes: {
         light: {

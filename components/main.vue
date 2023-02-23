@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
   <div id="main">
     <slot />
   </div>
@@ -8,4 +8,4 @@
   padding-top: 60px;
   padding-bottom: 55px;
 }
-</style> -->
+</style>

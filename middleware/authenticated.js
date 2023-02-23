@@ -13,4 +13,8 @@ export default function check({ route, redirect }) {
         Vue.toasted.global.my_app_error();
         redirect("/")
      }
+     else if(route.path=="/"){
+        localStorage.removeItem("username")
+        localStorage.removeItem("password")
+     }
     }
