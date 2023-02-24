@@ -1,4 +1,5 @@
 import Vue from "vue";
+import store from '../store/login';
 export default function check({ route, redirect }) {
     const username = "rishikesh@ngpwebsmart.com"
     const password = "123456"
@@ -6,8 +7,10 @@ export default function check({ route, redirect }) {
     // console.log(password)
     // console.log(localStorage.getItem("username"))
 
-
+   // (username !== localStorage.getItem("username")||password!==localStorage.getItem("password"))
     // If the user is not authenticated
+    console.log(store.getters()
+      )
     if (route.path!="/" && (username !== localStorage.getItem("username")||password!==localStorage.getItem("password"))) {
         // this.$toasted.show('hello billo')
         Vue.toasted.global.my_app_error();

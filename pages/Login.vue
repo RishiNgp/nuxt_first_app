@@ -33,7 +33,7 @@
                       <v-text-field
                         v-model="username"
                         :rules="loginEmailRules"
-                        label="*username"
+                        label="username*"
                         required
                       />
                     </v-col>
@@ -44,7 +44,7 @@
                         :rules="[rules.required, rules.min]"
                         :type="show3 ? 'text' : 'password'"
                         name="input-10-1"
-                        label="*Password"
+                        label="Password*"
                         hint="At least 6 characters"
                         counter
                         @click:append="show3 = !show3"
@@ -92,7 +92,7 @@
                       <v-text-field
                         v-model="firstName"
                         :rules="[rules.required]"
-                        label="First Name"
+                        label="First Name*"
                         maxlength="20"
                         required
                       />
@@ -104,7 +104,7 @@
                       <v-text-field
                         v-model="lastName"
                         :rules="[rules.required]"
-                        label="Last Name"
+                        label="Last Name*"
                         maxlength="20"
                         required
                       />
@@ -113,7 +113,7 @@
                       <v-text-field
                         v-model="email"
                         :rules="emailRules"
-                        label="*E-mail"
+                        label="E-mail*"
                         required
                       />
                     </v-col>
@@ -124,7 +124,7 @@
                         :rules="[rules.required, rules.min]"
                         :type="show1 ? 'text' : 'password'"
                         name="input-10-1"
-                        label="*Password"
+                        label="Password*"
                         hint="At least 8 characters"
                         counter
                         @click:append="show1 = !show1"
@@ -138,7 +138,7 @@
                         :type="show2 ? 'text' : 'password'"
                         block
                         name="input-10-1"
-                        label="*Confirm Password"
+                        label="Confirm Password*"
                         counter
                         @click:append="show2 = !show2"
                       />
@@ -170,6 +170,9 @@
 </template>
 
 <script>
+//import { validate } from 'json-schema';
+import { mapActions } from "vuex";
+
 export default {
   layout: "custom",
   data() {
@@ -222,18 +225,52 @@ export default {
   },
 
   methods: {
-    validate() {
-      if (this.$refs.loginForm.validate()) {
-        // submit form to server/API here...
-        localStorage.setItem("username", this.username);
-        localStorage.setItem("password", this.loginpassword);
-        this.$router.push("/home");
+    ...mapActions({
+      Userlogin:'login/Userlogin',
+  }),
+  ...mapActions({
+    UserRegister:'register/UserRegister',
+  }),
+    async validate(){
+      const User = new FormData();
+      User.append("username", this.username);
+      User.append("loginpassword", this.loginpassword);
+      // console.log( User.get('loginpassword'));
+      try{
+        if(this.$refs.loginForm.validate()){
+          await this.Userlogin(User)
+          this.$router.push("/home");
+        }
+
+      }catch(error){
+        console.log(error)
       }
     },
-    register() {
-      localStorage.setItem("username", this.email);
-      localStorage.setItem("password", this.password);
-      this.$router.push("/home");
+    // validate() {
+    //   if (this.$refs.loginForm.validate()) {
+    //     // submit form to server/API here...
+    //     localStorage.setItem("username", this.username);
+    //     localStorage.setItem("password", this.loginpassword);
+    //     this.$router.push("/home");
+    //   }
+    // },
+   async register() {
+
+      const form = new FormData();
+      form.append("firstName", this.firstName);
+      form.append("lastName", this.lastName);
+      form.append("email", this.email);
+      form.append("password", this.password);
+      // console.log( User.get('loginpassword'));
+      try{
+        if(this.$refs.registerForm.validate()){
+          await this.UserRegister(form);
+          this.$router.push("/home");
+        }
+
+      }catch(error){
+        console.log(error)
+      }
     },
     // reset() {
     //   this.$refs.form.reset();
