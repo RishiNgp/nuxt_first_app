@@ -27,6 +27,10 @@
           </v-col>
         </v-row>
       </v-toolbar>
+      <!-- <v-file-input 
+        v-model="image" 
+        @change="Preview_image"/> -->
+      <!-- <v-img :src="url"/> -->
 
       <v-row class="mt-n9">
         <v-col 
@@ -55,8 +59,10 @@
             <v-btn 
               class="green--text" 
               @click="showUpload">ADD</v-btn>
-            <span v-if="showChild" >
-            <Upload /></span>
+            <span v-if="showChild">
+              <Upload 
+                @close-dialog="closeDialog"
+            /></span>
           </v-toolbar>
         </v-col>
         <v-col 
@@ -90,356 +96,363 @@
           class="ml-1" 
           small>fas fa-chevron-down</v-icon>
       </v-toolbar>
-      <v-row class="mt-n6">
-        <v-col 
-          cols="12" 
-          sm="4">
-          <v-hover 
-            v-slot="{ hover }" 
-            open-delay="200">
-            <v-card 
-              :elevation="hover ? 16 : 2" 
-              color="red lighten-5">
-              <v-app-bar 
-                flat 
-                color="rgba(0,0,0,0)">
-                <v-chip 
-                  class="ma-2" 
-                  color="black" 
-                  text-color="white" 
-                  dense>
-                  <v-avatar left>
-                    <v-icon color="yellow">fas fa-star</v-icon>
-                  </v-avatar>
-                  4.2
-                </v-chip>
-                <v-spacer />
+      <span v-if="preview_list!=null">
+        <template>
+          <div>
+            <v-col 
+              col="12" 
+              sm="4">
+              <v-hover 
+                v-slot="{ hover }" 
+                open-delay="200">
+                <v-card 
+                  :elevation="hover ? 16 : 2" 
+                  color="red lighten-5">
+                  <v-app-bar 
+                    flat 
+                    color="rgba(0,0,0,0)">
+                    <v-chip 
+                      class="ma-2" 
+                      color="black" 
+                      text-color="white" 
+                      dense>
+                      <v-avatar left>
+                        <v-icon color="yellow">fas fa-star</v-icon>
+                      </v-avatar>
+                      4.2
+                    </v-chip>
+                    <v-spacer />
+                    <v-btn 
+                      class="" 
+                      fab 
+                      x-small 
+                      color="white">
+                      <v-icon>far fa-heart </v-icon>
+                    </v-btn>
+                  </v-app-bar>
+                  <div
+                    class="d-flex flex-column justify-space-between align-center"
+                  >
+                    <v-img 
+                      src= "preview_list.dishImage"
+                      max-height="180" 
+                      max-width="180" />
+                  </div>
+                  <v-app-bar 
+                    flat 
+                    color="rgba(0,0,0,0)">
+                    <h5 class="ml-1 grey--text text-lighten-3">{{ preview_list.dishName }}</h5>
+                    <v-chip
+                      class="ma-2"
+                      color="grey lighten-3"
+                      text-color="red"
+                      dense
+                    >
+                      250g
+                    </v-chip>
+                  </v-app-bar>
+                  <h5 class="ml-5 mt-n5">{{ preview_list.dishPrice }}</h5>
+                </v-card>
+              </v-hover>
+            </v-col>
+          </div>
+        </template>
+      </span>
+      <span v-else>
+        <v-row class="mt-n6">
+          <v-col 
+            cols="12" 
+            sm="4">
+            <v-hover 
+              v-slot="{ hover }" 
+              open-delay="200">
+              <v-card 
+                :elevation="hover ? 16 : 2" 
+                color="red lighten-5">
+                <v-app-bar 
+                  flat 
+                  color="rgba(0,0,0,0)">
+                  <v-chip 
+                    class="ma-2" 
+                    color="black" 
+                    text-color="white" 
+                    dense>
+                    <v-avatar left>
+                      <v-icon color="yellow">fas fa-star</v-icon>
+                    </v-avatar>
+                    4.2
+                  </v-chip>
+                  <v-spacer />
 
-                <v-btn 
-                  class="" 
-                  fab 
-                  x-small 
-                  color="white">
-                  <v-icon> far fa-heart </v-icon>
-                </v-btn>
-              </v-app-bar>
-              <div
-                class="d-flex flex-column justify-space-between align-center"
-              >
-                <v-img 
-                  src="0.png" 
-                  max-height="180" 
-                  max-width="180" />
-              </div>
-              <v-app-bar 
-                flat 
-                color="rgba(0,0,0,0)">
-                <h5 class="ml-1 grey--text text-lighten-3">Cabage Salad</h5>
-                <v-chip
-                  class="ma-2"
-                  color="grey lighten-3"
-                  text-color="red"
-                  dense
+                  <v-btn 
+                    class="" 
+                    fab 
+                    x-small 
+                    color="white">
+                    <v-icon> far fa-heart </v-icon>
+                  </v-btn>
+                </v-app-bar>
+                <div
+                  class="d-flex flex-column justify-space-between align-center"
                 >
-                  250g
-                </v-chip>
-              </v-app-bar>
-              <h5 class="ml-5 mt-n5">$4.99</h5>
-            </v-card>
-          </v-hover>
-        </v-col>
-        <v-col 
-          cols="12" 
-          sm="4">
-          <v-hover 
-            v-slot="{ hover }" 
-            open-delay="200">
-            <v-card 
-              :elevation="hover ? 16 : 2" 
-              color="blue lighten-5">
-              <v-app-bar 
-                flat 
-                color="rgba(0,0,0,0)">
-                <v-chip 
-                  class="ma-2" 
-                  color="black" 
-                  text-color="white" 
-                  dense>
-                  <v-avatar left>
-                    <v-icon color="yellow">fas fa-star</v-icon>
-                  </v-avatar>
-                  4.5
-                </v-chip>
-                <v-spacer />
+                  <v-img 
+                    src= "0.png" 
+                    max-height="180" 
+                    max-width="180" />
+                </div>
+                <v-app-bar 
+                  flat 
+                  color="rgba(0,0,0,0)">
+                  <h5 class="ml-1 grey--text text-lighten-3">Cabage Salad</h5>
+                  <v-chip
+                    class="ma-2"
+                    color="grey lighten-3"
+                    text-color="red"
+                    dense
+                  >
+                    250g
+                  </v-chip>
+                </v-app-bar>
+                <h5 class="ml-5 mt-n5">$4.99</h5>
+              </v-card>
+            </v-hover>
+          </v-col>
+          <v-col 
+            cols="12" 
+            sm="4">
+            <v-hover 
+              v-slot="{ hover }" 
+              open-delay="200">
+              <v-card 
+                :elevation="hover ? 16 : 2" 
+                color="blue lighten-5">
+                <v-app-bar 
+                  flat 
+                  color="rgba(0,0,0,0)">
+                  <v-chip 
+                    class="ma-2" 
+                    color="black" 
+                    text-color="white" 
+                    dense>
+                    <v-avatar left>
+                      <v-icon color="yellow">fas fa-star</v-icon>
+                    </v-avatar>
+                    4.5
+                  </v-chip>
+                  <v-spacer />
 
-                <v-btn 
-                  class="" 
-                  fab 
-                  x-small 
-                  color="white">
-                  <v-icon> far fa-heart </v-icon>
-                </v-btn>
-              </v-app-bar>
-              <div
-                class="d-flex flex-column justify-space-between align-center"
-              >
-                <v-img 
-                  src="1.png" 
-                  max-height="180" 
-                  max-width="180" />
-              </div>
-              <v-app-bar 
-                flat 
-                color="rgba(0,0,0,0)">
-                <h5 class="ml-1 grey--text text-lighten-3">Noodle salad</h5>
-                <v-chip
-                  class="ma-2"
-                  color="grey lighten-3"
-                  text-color="red"
-                  dense
+                  <v-btn 
+                    class="" 
+                    fab 
+                    x-small 
+                    color="white">
+                    <v-icon> far fa-heart </v-icon>
+                  </v-btn>
+                </v-app-bar>
+                <div
+                  class="d-flex flex-column justify-space-between align-center"
                 >
-                  300g
-                </v-chip>
-              </v-app-bar>
-              <h5 class="ml-5 mt-n5">$6.30</h5>
-            </v-card>
-          </v-hover>
-        </v-col>
-        <v-col 
-          cols="12" 
-          sm="4">
-          <v-hover 
-            v-slot="{ hover }" 
-            open-delay="200">
-            <v-card 
-              :elevation="hover ? 16 : 2" 
-              color="green lighten-5">
-              <v-app-bar 
-                flat 
-                color="rgba(0,0,0,0)">
-                <v-chip 
-                  class="ma-2" 
-                  color="black" 
-                  text-color="white" 
-                  dense>
-                  <v-avatar left>
-                    <v-icon color="yellow">fas fa-star</v-icon>
-                  </v-avatar>
-                  5.0
-                </v-chip>
-                <v-spacer />
+                  <v-img 
+                    src="1.png" 
+                    max-height="180" 
+                    max-width="180" />
+                </div>
+                <v-app-bar 
+                  flat 
+                  color="rgba(0,0,0,0)">
+                  <h5 class="ml-1 grey--text text-lighten-3">Noodle salad</h5>
+                  <v-chip
+                    class="ma-2"
+                    color="grey lighten-3"
+                    text-color="red"
+                    dense
+                  >
+                    300g
+                  </v-chip>
+                </v-app-bar>
+                <h5 class="ml-5 mt-n5">$6.30</h5>
+              </v-card>
+            </v-hover>
+          </v-col>
+          <v-col 
+            cols="12" 
+            sm="4">
+            <v-hover 
+              v-slot="{ hover }" 
+              open-delay="200">
+              <v-card 
+                :elevation="hover ? 16 : 2" 
+                color="green lighten-5">
+                <v-app-bar 
+                  flat 
+                  color="rgba(0,0,0,0)">
+                  <v-chip 
+                    class="ma-2" 
+                    color="black" 
+                    text-color="white" 
+                    dense>
+                    <v-avatar left>
+                      <v-icon color="yellow">fas fa-star</v-icon>
+                    </v-avatar>
+                    5.0
+                  </v-chip>
+                  <v-spacer />
 
-                <v-btn 
-                  class="" 
-                  fab 
-                  x-small 
-                  color="white">
-                  <v-icon> far fa-heart </v-icon>
-                </v-btn>
-              </v-app-bar>
-              <div
-                class="d-flex flex-column justify-space-between align-center"
-              >
-                <v-img 
-                  src="3.png" 
-                  max-height="180" 
-                  max-width="180" />
-              </div>
-              <v-app-bar 
-                flat 
-                color="rgba(0,0,0,0)" 
-                class="mt-2">
-                <h5 class="ml-1 grey--text text-lighten-3">Vegetable mix</h5>
-                <v-chip
-                  class="ma-2"
-                  color="grey lighten-3"
-                  text-color="red"
-                  dense
+                  <v-btn 
+                    class="" 
+                    fab 
+                    x-small 
+                    color="white">
+                    <v-icon> far fa-heart </v-icon>
+                  </v-btn>
+                </v-app-bar>
+                <div
+                  class="d-flex flex-column justify-space-between align-center"
                 >
-                  400g
-                </v-chip>
-              </v-app-bar>
-              <h5 class="ml-5 mt-n5">$5.99</h5>
-            </v-card>
-          </v-hover>
-        </v-col>
-        <v-col 
-          cols="12" 
-          sm="4">
-          <v-hover 
-            v-slot="{ hover }" 
-            open-delay="200">
-            <v-card 
-              :elevation="hover ? 16 : 2" 
-              color="teal  lighten-5">
-              <v-app-bar 
-                flat 
-                color="rgba(0,0,0,0)">
-                <v-chip 
-                  class="ma-2" 
-                  color="black" 
-                  text-color="white" 
-                  dense>
-                  <v-avatar left>
-                    <v-icon color="yellow">fas fa-star</v-icon>
-                  </v-avatar>
-                  4.4
-                </v-chip>
-                <v-spacer />
+                  <v-img 
+                    src="3.png" 
+                    max-height="180" 
+                    max-width="180" />
+                </div>
+                <v-app-bar 
+                  flat 
+                  color="rgba(0,0,0,0)" 
+                  class="mt-2">
+                  <h5 class="ml-1 grey--text text-lighten-3">Vegetable mix</h5>
+                  <v-chip
+                    class="ma-2"
+                    color="grey lighten-3"
+                    text-color="red"
+                    dense
+                  >
+                    400g
+                  </v-chip>
+                </v-app-bar>
+                <h5 class="ml-5 mt-n5">$5.99</h5>
+              </v-card>
+            </v-hover>
+          </v-col>
+          <v-col 
+            cols="12" 
+            sm="4">
+            <v-hover 
+              v-slot="{ hover }" 
+              open-delay="200">
+              <v-card 
+                :elevation="hover ? 16 : 2" 
+                color="teal  lighten-5">
+                <v-app-bar 
+                  flat 
+                  color="rgba(0,0,0,0)">
+                  <v-chip 
+                    class="ma-2" 
+                    color="black" 
+                    text-color="white" 
+                    dense>
+                    <v-avatar left>
+                      <v-icon color="yellow">fas fa-star</v-icon>
+                    </v-avatar>
+                    4.4
+                  </v-chip>
+                  <v-spacer />
 
-                <v-btn 
-                  class="" 
-                  fab 
-                  x-small 
-                  color="white">
-                  <v-icon> far fa-heart </v-icon>
-                </v-btn>
-              </v-app-bar>
-              <div
-                class="d-flex flex-column justify-space-between align-center"
-              >
-                <v-img 
-                  src="4.png" 
-                  max-height="180" 
-                  max-width="180" />
-              </div>
-              <v-app-bar 
-                flat 
-                color="rgba(0,0,0,0)">
-                <h5 class="ml-1 grey--text text-lighten-3">Seafood soup</h5>
-                <v-chip
-                  class="ma-2"
-                  color="grey lighten-3"
-                  text-color="red"
-                  dense
+                  <v-btn 
+                    class="" 
+                    fab 
+                    x-small 
+                    color="white">
+                    <v-icon> far fa-heart </v-icon>
+                  </v-btn>
+                </v-app-bar>
+                <div
+                  class="d-flex flex-column justify-space-between align-center"
                 >
-                  350g
-                </v-chip>
-              </v-app-bar>
-              <h5 class="ml-5 mt-n5">$6.10</h5>
-            </v-card>
-          </v-hover>
-        </v-col>
-        <v-col 
-          cols="12" 
-          sm="4">
-          <v-hover 
-            v-slot="{ hover }" 
-            open-delay="200">
-            <v-card 
-              :elevation="hover ? 16 : 2" 
-              color="pink lighten-5">
-              <v-app-bar 
-                flat 
-                color="rgba(0,0,0,0)">
-                <v-chip 
-                  class="ma-2" 
-                  color="black" 
-                  text-color="white" 
-                  dense>
-                  <v-avatar left>
-                    <v-icon color="yellow">fas fa-star</v-icon>
-                  </v-avatar>
-                  5.0
-                </v-chip>
-                <v-spacer />
+                  <v-img 
+                    src="4.png" 
+                    max-height="180" 
+                    max-width="180" />
+                </div>
+                <v-app-bar 
+                  flat 
+                  color="rgba(0,0,0,0)">
+                  <h5 class="ml-1 grey--text text-lighten-3">Seafood soup</h5>
+                  <v-chip
+                    class="ma-2"
+                    color="grey lighten-3"
+                    text-color="red"
+                    dense
+                  >
+                    350g
+                  </v-chip>
+                </v-app-bar>
+                <h5 class="ml-5 mt-n5">$6.10</h5>
+              </v-card>
+            </v-hover>
+          </v-col>
+          <v-col 
+            cols="12" 
+            sm="4">
+            <v-hover 
+              v-slot="{ hover }" 
+              open-delay="200">
+              <v-card 
+                :elevation="hover ? 16 : 2" 
+                color="purple lighten-5">
+                <v-app-bar 
+                  flat 
+                  color="rgba(0,0,0,0)">
+                  <v-chip 
+                    class="ma-2" 
+                    color="black" 
+                    text-color="white" 
+                    dense>
+                    <v-avatar left>
+                      <v-icon color="yellow">fas fa-star</v-icon>
+                    </v-avatar>
+                    4.7
+                  </v-chip>
+                  <v-spacer />
 
-                <v-btn 
-                  class="" 
-                  fab 
-                  x-small 
-                  color="white">
-                  <v-icon color="red"> far fa-heart </v-icon>
-                </v-btn>
-              </v-app-bar>
-              <div
-                class="d-flex flex-column justify-space-between align-center"
-              >
-                <v-img 
-                  src="2.png" 
-                  max-height="180" 
-                  max-width="180" />
-              </div>
-              <v-app-bar 
-                flat 
-                color="rgba(0,0,0,0)">
-                <h5 class="ml-1 grey--text text-lighten-3">Bean Soup</h5>
-                <v-chip
-                  class="ma-2"
-                  color="grey lighten-3"
-                  text-color="red"
-                  dense
+                  <v-btn 
+                    class="" 
+                    fab 
+                    x-small 
+                    color="white">
+                    <v-icon> far fa-heart </v-icon>
+                  </v-btn>
+                </v-app-bar>
+                <div
+                  class="d-flex flex-column justify-space-between align-center"
                 >
-                  300g
-                </v-chip>
-              </v-app-bar>
-              <h5 class="ml-5 mt-n5">$4.30</h5>
-            </v-card>
-          </v-hover>
-        </v-col>
-        <v-col 
-          cols="12" 
-          sm="4">
-          <v-hover 
-            v-slot="{ hover }" 
-            open-delay="200">
-            <v-card 
-              :elevation="hover ? 16 : 2" 
-              color="purple lighten-5">
-              <v-app-bar 
-                flat 
-                color="rgba(0,0,0,0)">
-                <v-chip 
-                  class="ma-2" 
-                  color="black" 
-                  text-color="white" 
-                  dense>
-                  <v-avatar left>
-                    <v-icon color="yellow">fas fa-star</v-icon>
-                  </v-avatar>
-                  4.7
-                </v-chip>
-                <v-spacer />
-
-                <v-btn 
-                  class="" 
-                  fab 
-                  x-small 
-                  color="white">
-                  <v-icon> far fa-heart </v-icon>
-                </v-btn>
-              </v-app-bar>
-              <div
-                class="d-flex flex-column justify-space-between align-center"
-              >
-                <v-img
-                  src="8.png"
-                  max-height="180"
-                  max-width="180"
-                  class="mt-n5"
-                />
-              </div>
-              <v-app-bar 
-                flat 
-                color="rgba(0,0,0,0)" 
-                class="mt-n6">
-                <h5 class="ml-1 grey--text text-lighten-3">
-                  Stewed vegetables
-                </h5>
-                <v-chip
-                  class="ma-2"
-                  color="grey lighten-3"
-                  text-color="red"
-                  dense
-                >
-                  400g
-                </v-chip>
-              </v-app-bar>
-              <h5 class="ml-5 mt-n5">$4.99</h5>
-            </v-card>
-          </v-hover>
-        </v-col>
-      </v-row>
+                  <v-img
+                    src="8.png"
+                    max-height="180"
+                    max-width="180"
+                    class="mt-n5"
+                  />
+                </div>
+                <v-app-bar 
+                  flat 
+                  color="rgba(0,0,0,0)" 
+                  class="mt-n6">
+                  <h5 class="ml-1 grey--text text-lighten-3">
+                    Stewed vegetables
+                  </h5>
+                  <v-chip
+                    class="ma-2"
+                    color="grey lighten-3"
+                    text-color="red"
+                    dense
+                  >
+                    400g
+                  </v-chip>
+                </v-app-bar>
+                <h5 class="ml-5 mt-n5">$4.99</h5>
+              </v-card>
+            </v-hover>
+          </v-col>
+        </v-row>
+      </span>
       <div class="d-flex flex-column justify-space-between align-center">
         <v-btn 
           class="px-15 mt-2" 
@@ -456,18 +469,40 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 export default {
   layout: "custom",
   data() {
     return {
+      image:null,
+      url: null,
+      image1:null,
       drawer: null,
       showChild: false,
+      image_list: [],
+      
     };
   },
+  computed:{
+    preview_list(){
+      return JSON.parse(localStorage.getItem('list'))
+    }
+  },
+  watch:{
+    
+  },
   methods: {
+    //  Preview_image() {
+    //   this.url= URL.createObjectURL(this.image)
+    //   localStorage.setItem("dishimage",this.url)
+    //   this.image1=localStorage.getItem("dishimage")
+    // }
     showUpload() {
-      console.log('Button click')
-      this.showChild =! this.showChild;
+      console.log("Button click");
+      this.showChild = !this.showChild;
+    },
+    closeDialog() {
+      this.showChild = !this.showChild;
     },
   },
 };
