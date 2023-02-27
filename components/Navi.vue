@@ -1,5 +1,6 @@
 <template>
   <div id="navi_bar">
+    <span v-if="isLoggedIn">
     <NuxtLink 
       class="NuxtLink" 
       to="/home">Home</NuxtLink>
@@ -12,6 +13,7 @@
     <NuxtLink 
       class="NuxtLink" 
       to="/upload">AddItem</NuxtLink>
+    </span>
   </div>
 </template>
 <style scoped>
@@ -47,6 +49,11 @@
 </style>
 <script>
 export default {
+  computed:{
+    isLoggedIn:function(){
+      return this.$store.getters.isAuthenticated
+    },
+  },
   methods: {
     logout() {
       localStorage.removeItem("username");

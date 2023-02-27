@@ -13,11 +13,14 @@ export default {
 </script> -->
 <template>
   <v-app>
-    <v-dialog 
-      v-model="dialog" 
-      persistent 
-      max-width="600px" 
-      min-width="360px">
+    <v-dialog
+      v-model="dialog"
+      hide-overlay
+      transition="dialog-bottom-transition"
+      persistent
+      max-width="600px"
+      min-width="360px"
+    >
       <div>
         <v-tabs
           v-model="tab"
@@ -42,9 +45,9 @@ export default {
                   v-model="FileValid" 
                   lazy-validation>
                   <v-row>
-                    <v-col cols="12">
+                    <!-- <v-col cols="12">
                       <v-text-field
-                        v-model="username"
+                        v-model="addItem.username"
                         :rules="loginEmailRules"
                         label="username*"
                         required
@@ -52,7 +55,7 @@ export default {
                     </v-col>
                     <v-col cols="12">
                       <v-text-field
-                        v-model="loginpassword"
+                        v-model="addItem.loginpassword"
                         :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                         :rules="[rules.required, rules.min]"
                         :type="show ? 'text' : 'password'"
@@ -62,12 +65,12 @@ export default {
                         counter
                         @click:append="show = !show"
                       />
-                    </v-col>
+                    </v-col> -->
                     <v-col cols="12">
                       <v-text-field
                         v-model="dishname"
                         :rules="[rules.required]"
-                        label="dishname*"
+                        label="Dishname*"
                         required
                       />
                     </v-col>
@@ -75,13 +78,21 @@ export default {
                       <v-text-field
                         v-model="dishprice"
                         :rules="[rules.required]"
-                        label="*$price"
+                        label="$Price*"
+                        required
+                      />
+                    </v-col>
+                    <v-col cols="12">
+                      <v-text-field
+                        v-model="dishcalories"
+                        :rules="[rules.required]"
+                        label="Calories*"
                         required
                       />
                     </v-col>
                     <v-col cols="12">
                       <v-file-input
-                        :rules="Filerules"
+                        v-model="dishphoto"
                         accept="image/png, image/jpeg, image/bmp"
                         placeholder="Pick a dish"
                         prepend-icon="mdi-camera"
@@ -102,12 +113,11 @@ export default {
                       sm="3" 
                       xsm="12" 
                       align-end>
-                      <v-btn
-                        x-large
-                        block
-                        color="error"
-                        @click="close"
-                      >
+                      <v-btn 
+                        x-large 
+                        block 
+                        color="error" 
+                        @click="closeDialog">
                         Cancel
                       </v-btn>
                     </v-col>
@@ -139,23 +149,30 @@ export default {
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   name: "FileUpload",
   layout: "homelayout",
   data() {
     return {
-      username: "",
-      loginpassword: "",
       dishname: "",
       dishprice: "",
+      dishphoto:[],
+      dishcalories:"",
+
       dialog: true,
       tab: 0,
       FileValid: true,
       show: false,
       tabs: [{ name: "UploadDish", icon: "mdi-silverware" }],
       Filerules: [
-        value => {
-          return !value || !value.length || value[0].size < 2000000 || 'Avatar size should be less than 2 MB!'
+        (value) => {
+          return (
+            !value ||
+            !value.length ||
+            value[0].size < 2000000 ||
+            "Avatar size should be less than 2 MB!"
+          );
         },
       ],
       loginEmailRules: [
@@ -169,24 +186,54 @@ export default {
       },
     };
   },
-  watch: {
-    value: {
-      immediate: true,
-      deep: true,
-      handler(value) {
-        if (value) {
-          this.files = value;
-        }
-      },
-    },
-  },
+  // watch: {
+  //   value: {
+  //     immediate: true,
+  //     deep: true,
+  //     handler(value) {
+  //       if (value) {
+  //         this.files = value;
+  //       }
+  //     },this.formUpload
+  //   },
+  // },
   methods: {
-    Upload() {
-      this.$router.push("/menu");
+    ...mapActions(
+      'addMenu',['uploadMenu']
+    ),
+    async Upload() {
+    const image=URL.createObjectURL(this.dishphoto)
+  
+    const payload={
+      dishName:this.dishname,
+      dishPrice:this.dishprice,
+      dishCalories:this.dishcalories,
+      dishPhoto: image
+    }
+      try{
+        if(this.$refs.uploadForm.validate()){
+          await this.uploadMenu(payload)
+          // this.$refs.form.reset();
+          // this.$refs.form.resetValidation();
+          // localStorage.setItem('dishname:',this.dishname)
+          // localStorage.setItem('dishprice',this.dishprice)
+          // localStorage.setItem('dishphoto',this.dishphoto)
+          // this.$router.push("/home")
+          this.$emit('upload-image',payload)
+        }
+      }catch(error){
+        console.log("error while uploading")
+      }
+
+
     },
     close(){
      this.$router.push("/home")
-    }
+
+    },
+    closeDialog: function () {
+      this.$emit("close-dialog");
+    },
   },
 };
 </script>
