@@ -7,7 +7,7 @@
     <v-toolbar 
       color="grey lighten-3" 
       flat>
-      <v-spacer/>
+      <v-spacer />
       <v-btn icon>
         <v-badge 
           bordered 
@@ -27,7 +27,7 @@
         <v-avatar 
           size="40" 
           rounded>
-          <v-img src="https://cdn.vuetifyjs.com/images/lists/2.jpg"/>
+          <v-img src="https://cdn.vuetifyjs.com/images/lists/2.jpg" />
         </v-avatar>
       </v-badge>
       <v-btn icon>
@@ -39,7 +39,7 @@
       flat 
       color="grey lighten-3">
       <h3>My Order</h3>
-      <v-spacer/>
+      <v-spacer />
       <h6 class="green--text">Edit</h6>
     </v-toolbar>
     <v-app-bar 
@@ -83,157 +83,221 @@
         Dial me for order specification
       </h5>
     </v-app-bar>
-    <v-divider/>
-
-    <v-container>
-      <v-row>
-        <v-col 
-          cols="12" 
-          sm="3">
-          <v-img
-            :src="require('~/static/0.png')"
-            max-height="50"
-            max-width="50"
-            contain
-            class="mt-1 mr-1"
-          />
-        </v-col>
-        <v-col 
-          cols="12" 
-          sm="3">
-          <h6 class="ml-n6 grey--text text--darken-2">
-            Bean soup <br >
-            <span class="grey--text text--lighten-1">350g</span>
-          </h6>
-        </v-col>
-        <v-col 
-          cols="12" 
-          sm="6">
-          <v-chip 
-            class="ml-n5" 
-            color="green" 
-            outlined 
-            text-color="black" 
-            small>
-            <v-icon 
-              left 
-              x-small> fas fa-plus </v-icon>
-            <v-divider 
-              vertical 
-              inset 
-              class="mr-1"/>
-            1
-            <v-divider 
-              vertical 
-              inset 
-              class="ml-1"/>
-            <v-icon 
-              right 
-              x-small> fas fa-minus </v-icon>
-          </v-chip>
-          <strong class="ml-1 mr-1">$4.20</strong>
-          <v-icon x-small> fas fa-times </v-icon>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col 
-          cols="12" 
-          sm="3">
-          <v-img
-            :src="require('~/static/3.png')"
-            max-height="50"
-            max-width="50"
-            contain
-            class="mt-1 mr-1"
-          />
-        </v-col>
-        <v-col 
-          cols="12" 
-          sm="3">
-          <h6 class="ml-n6 grey--text text--darken-2">
-            Noodle salad <br >
-            <span class="grey--text text--lighten-1">300g</span>
-          </h6>
-        </v-col>
-        <v-col 
-          cols="12" 
-          sm="6">
-          <v-chip 
-            class="ml-n5" 
-            color="green" 
-            outlined 
-            text-color="black" 
-            small>
-            <v-icon 
-              left 
-              x-small> fas fa-plus </v-icon>
-            <v-divider 
-              vertical 
-              inset 
-              class="mr-1"/>
-            1
-            <v-divider 
-              vertical 
-              inset 
-              class="ml-1"/>
-            <v-icon 
-              right 
-              x-small> fas fa-minus </v-icon>
-          </v-chip>
-          <strong class="ml-1 mr-1">$6.30</strong>
-          <v-icon x-small> fas fa-times </v-icon>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col 
-          cols="12" 
-          sm="3">
-          <v-img
-            :src="require('~/static/6.png')"
-            max-height="50"
-            max-width="50"
-            contain
-            class="mt-1 mr-1"
-          />
-        </v-col>
-        <v-col 
-          cols="12" 
-          sm="3">
-          <h6 class="ml-n6 grey--text text--darken-2">
-            Roast potato<br >
-            <span class="grey--text text--lighten-1">300g</span>
-          </h6>
-        </v-col>
-        <v-col 
-          cols="12" 
-          sm="6">
-          <v-chip 
-            class="ml-n5" 
-            color="green" 
-            outlined 
-            text-color="black" 
-            small>
-            <v-icon 
-              left 
-              x-small> fas fa-plus </v-icon>
-            <v-divider 
-              vertical 
-              inset 
-              class="mr-1"/>
-            1
-            <v-divider 
-              vertical 
-              inset 
-              class="ml-1"/>
-            <v-icon 
-              right 
-              x-small> fas fa-minus </v-icon>
-          </v-chip>
-          <strong class="ml-1 mr-1">$4.99</strong>
-          <v-icon x-small> fas fa-times </v-icon>
-        </v-col>
-      </v-row>
-    </v-container>
+    <v-divider />
+    <span v-if="Preview_image[0] == null">
+      <v-container>
+        <v-row>
+          <v-col 
+            cols="12" 
+            sm="3">
+            <!-- :src="require('~/static/0.png')" -->
+            <v-img
+              :src="require('~/static/0.png')"
+              max-height="50"
+              max-width="50"
+              contain
+              class="mt-1 mr-1"
+            />
+          </v-col>
+          <v-col 
+            cols="12" 
+            sm="3">
+            <h6 class="ml-n6 grey--text text--darken-2">
+              Bean soup <br >
+              <span class="grey--text text--lighten-1">350g</span>
+            </h6>
+          </v-col>
+          <v-col 
+            cols="12" 
+            sm="6">
+            <v-chip
+              class="ml-n5"
+              color="green"
+              outlined
+              text-color="black"
+              small
+            >
+              <v-icon 
+                left 
+                x-small> fas fa-plus </v-icon>
+              <v-divider 
+                vertical 
+                inset 
+                class="mr-1" />
+              1
+              <v-divider 
+                vertical 
+                inset 
+                class="ml-1" />
+              <v-icon 
+                right 
+                x-small> fas fa-minus </v-icon>
+            </v-chip>
+            <strong class="ml-1 mr-1">$4.20</strong>
+            <v-icon x-small> fas fa-times </v-icon>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col 
+            cols="12" 
+            sm="3">
+            <v-img
+              :src="require('~/static/3.png')"
+              max-height="50"
+              max-width="50"
+              contain
+              class="mt-1 mr-1"
+            />
+          </v-col>
+          <v-col 
+            cols="12" 
+            sm="3">
+            <h6 class="ml-n6 grey--text text--darken-2">
+              Noodle salad <br >
+              <span class="grey--text text--lighten-1">300g</span>
+            </h6>
+          </v-col>
+          <v-col 
+            cols="12" 
+            sm="6">
+            <v-chip
+              class="ml-n5"
+              color="green"
+              outlined
+              text-color="black"
+              small
+            >
+              <v-icon 
+                left 
+                x-small> fas fa-plus </v-icon>
+              <v-divider 
+                vertical 
+                inset 
+                class="mr-1" />
+              1
+              <v-divider 
+                vertical 
+                inset 
+                class="ml-1" />
+              <v-icon 
+                right 
+                x-small> fas fa-minus </v-icon>
+            </v-chip>
+            <strong class="ml-1 mr-1">$6.30</strong>
+            <v-icon x-small> fas fa-times </v-icon>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col 
+            cols="12" 
+            sm="3">
+            <v-img
+              :src="require('~/static/6.png')"
+              max-height="50"
+              max-width="50"
+              contain
+              class="mt-1 mr-1"
+            />
+          </v-col>
+          <v-col 
+            cols="12" 
+            sm="3">
+            <h6 class="ml-n6 grey--text text--darken-2">
+              Roast potato<br >
+              <span class="grey--text text--lighten-1">300g</span>
+            </h6>
+          </v-col>
+          <v-col 
+            cols="12" 
+            sm="6">
+            <v-chip
+              class="ml-n5"
+              color="green"
+              outlined
+              text-color="black"
+              small
+            >
+              <v-icon 
+                left 
+                x-small> fas fa-plus </v-icon>
+              <v-divider 
+                vertical 
+                inset 
+                class="mr-1" />
+              1
+              <v-divider 
+                vertical 
+                inset 
+                class="ml-1" />
+              <v-icon 
+                right 
+                x-small> fas fa-minus </v-icon>
+            </v-chip>
+            <strong class="ml-1 mr-1">$4.99</strong>
+            <v-icon x-small> fas fa-times </v-icon>
+          </v-col>
+        </v-row>
+      </v-container>
+    </span>
+    <span v-else>
+      <v-container>
+        <v-row 
+          v-for="item of Preview_image" 
+          :key="item.dishName">
+          <v-col 
+            cols="12" 
+            sm="3">
+            <!-- :src="require('~/static/0.png')" -->
+            <v-img
+              :src="item.dishPhoto"
+              max-height="50"
+              max-width="50"
+              contain
+              class="mt-1 mr-1"
+            />
+          </v-col>
+          <v-col 
+            cols="12" 
+            sm="3">
+            <h6 class="ml-n6 grey--text text--darken-2">
+              {{ item.dishName }} <br >
+              <span class="grey--text text--lighten-1">350g</span>
+            </h6>
+          </v-col>
+          <v-col 
+            cols="12" 
+            sm="6">
+            <v-chip
+              class="ml-n5"
+              color="green"
+              outlined
+              text-color="black"
+              small
+            >
+              <v-icon 
+                left 
+                x-small 
+                @click="addItem"> fas fa-plus </v-icon>
+              <v-divider 
+                vertical 
+                inset 
+                class="mr-1" />
+              {{ add }}
+              <v-divider 
+                vertical 
+                inset 
+                class="ml-1" />
+              <v-icon 
+                right 
+                x-small 
+                @click="reduceItem"> fas fa-minus </v-icon>
+            </v-chip>
+            <strong class="ml-1 mr-1">₹{{ item.dishPrice * add }} </strong>
+            <v-icon x-small> fas fa-times </v-icon>
+          </v-col>
+        </v-row>
+      </v-container>
+    </span>
     <div class="text-center">
       <v-btn 
         class="px-12" 
@@ -245,7 +309,7 @@
       flat 
       color="grey lighten-3">
       <h3>Total</h3>
-      <v-spacer/>
+      <v-spacer />
       <h3>$15.46</h3>
     </v-toolbar>
     <div class="text-center">
@@ -299,9 +363,35 @@
 </template>
 
 <script>
-export default {};
+import Vue from 'vue';
+export default {
+  data() {
+    return {
+      add: 1,
+    };
+  },
+  computed: {
+    Preview_image() {
+      return this.$store.getters["addMenu/MenuList"];
+    },
+    Total(){
+      return 
+    }
+  },
+  methods: {
+    addItem() {
+     
+      this.add += 1;
+    },
+    reduceItem() {
+      if(this.add>0){
+      this.add -= 1;}
+      else{
+        Vue.toasted.global.negative_valu_error();
+      }
+    },
+  },
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

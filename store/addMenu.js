@@ -11,6 +11,7 @@ export const getters = {
     dishName:state=>state.dishname,
     dishPrice:state=>state.dishprice,
     dishCalories:state=>state.dishcalories,
+    dishImage:state=>state.dishimage,
     MenuList:state=>state.list
 
 
@@ -27,11 +28,17 @@ export const actions = {
 export const mutations = {
     async setMenu(state,payload){
       // state.list=payload
-      // console.log(state.list)
+      // console.log("PayLoad",payload.dishName)
+      
         state.dishname=payload.dishName
+        console.log("state",state.dishname)
         state.dishprice=payload.dishPrice
-        state.list=JSON.stringify(payload)
-        console.log(state.list)
+        state.dishcalories=payload.dishCalories
+        state.dishimage=payload.dishPhoto
+
+        // const x= JSON.stringify(payload)
+        await state.list.push(payload)
+        console.log("mutation",state.list[0].dishPhoto)
         localStorage.setItem('list',JSON.stringify(payload))
     }
 

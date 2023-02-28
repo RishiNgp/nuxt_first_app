@@ -15,8 +15,11 @@ Vue.toasted.register('my_app_error', 'Please enter correct username && password'
     icon:"error_outline"
    
 })
-Vue.toasted.register('sucess','You have succefully login',{
-
+Vue.toasted.register('negative_valu_error','Value Cannot Be Less Than Zero',{
+  theme: "bubble", 
+  position: "top-center", 
+  duration : 5000,
+  icon:"error_outline"
 })
 
 export default ({app}, inject) => {

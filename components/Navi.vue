@@ -1,19 +1,17 @@
 <template>
   <div id="navi_bar">
-    <span v-if="isLoggedIn">
-      <NuxtLink 
-        class="NuxtLink" 
-        to="/home">Home</NuxtLink>
-      <button 
-        class="NuxtLink" 
-        @click="logout">Logout</button>
-      <NuxtLink 
-        class="NuxtLink" 
-        to="/menu">Menu</NuxtLink>
-      <NuxtLink 
-        class="NuxtLink" 
-        to="/upload">AddItem</NuxtLink>
-    </span>
+    <NuxtLink 
+      class="NuxtLink" 
+      to="/home">Home</NuxtLink>
+    <button 
+      class="NuxtLink" 
+      @click="logout">Logout</button>
+    <NuxtLink 
+      class="NuxtLink" 
+      to="/menu">Menu</NuxtLink>
+    <NuxtLink 
+      class="NuxtLink" 
+      to="/upload">AddItem</NuxtLink>
   </div>
 </template>
 <style scoped>

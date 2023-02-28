@@ -1,6 +1,7 @@
 <template>
   <div>
     <div id="header"><Navi /></div>
+    
     <div id="main">
       <nuxt />
     </div>

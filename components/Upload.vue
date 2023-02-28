@@ -78,7 +78,8 @@ export default {
                       <v-text-field
                         v-model="dishprice"
                         :rules="[rules.required]"
-                        label="$Price*"
+                        type="number"
+                        label="₹Price*"
                         required
                       />
                     </v-col>
@@ -87,12 +88,14 @@ export default {
                         v-model="dishcalories"
                         :rules="[rules.required]"
                         label="Calories*"
+                        type="number"
                         required
                       />
                     </v-col>
                     <v-col cols="12">
                       <v-file-input
                         v-model="dishphoto"
+                        :rules="[rules.required]"
                         accept="image/png, image/jpeg, image/bmp"
                         placeholder="Pick a dish"
                         prepend-icon="mdi-camera"
@@ -157,8 +160,8 @@ export default {
     return {
       dishname: "",
       dishprice: "",
-      dishphoto:[],
-      dishcalories:"",
+      dishphoto: [],
+      dishcalories: "",
 
       dialog: true,
       tab: 0,
@@ -198,38 +201,38 @@ export default {
   //   },
   // },
   methods: {
-    ...mapActions(
-      'addMenu',['uploadMenu']
-    ),
+    ...mapActions("addMenu", ["uploadMenu"]),
     async Upload() {
-    const image=URL.createObjectURL(this.dishphoto)
-  
-    const payload={
-      dishName:this.dishname,
-      dishPrice:this.dishprice,
-      dishCalories:this.dishcalories,
-      dishPhoto: image
-    }
-      try{
-        if(this.$refs.uploadForm.validate()){
-          await this.uploadMenu(payload)
+      try {
+        if (this.$refs.uploadForm.validate()) {
+          const image = URL.createObjectURL(this.dishphoto);
+          // const reader=new FileReader();
+          // reader.readAsDataURL(this.dishimage);
+          console.log(image);
+
+          const payload = {
+            dishName: this.dishname,
+            dishPrice: this.dishprice,
+            dishCalories: this.dishcalories,
+            dishPhoto: image,
+          };
+
+          await this.uploadMenu(payload);
           // this.$refs.form.reset();
           // this.$refs.form.resetValidation();
           // localStorage.setItem('dishname:',this.dishname)
           // localStorage.setItem('dishprice',this.dishprice)
           // localStorage.setItem('dishphoto',this.dishphoto)
           // this.$router.push("/home")
-          this.$emit('upload-image',payload)
         }
-      }catch(error){
-        console.log("error while uploading")
+      } catch (error) {
+        alert("please fill the required data",error)
+      }finally{
+        this.$emit("upload-image")
       }
-
-
     },
-    close(){
-     this.$router.push("/home")
-
+    close() {
+      this.$router.push("/home");
     },
     closeDialog: function () {
       this.$emit("close-dialog");

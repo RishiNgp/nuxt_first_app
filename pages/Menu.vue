@@ -61,6 +61,7 @@
               @click="showUpload">ADD</v-btn>
             <span v-if="showChild">
               <Upload 
+                @upload-image="upload" 
                 @close-dialog="closeDialog"
             /></span>
           </v-toolbar>
@@ -96,69 +97,8 @@
           class="ml-1" 
           small>fas fa-chevron-down</v-icon>
       </v-toolbar>
-      <span v-if="preview_list!=null">
-        <template>
-          <div>
-            <v-col 
-              col="12" 
-              sm="4">
-              <v-hover 
-                v-slot="{ hover }" 
-                open-delay="200">
-                <v-card 
-                  :elevation="hover ? 16 : 2" 
-                  color="red lighten-5">
-                  <v-app-bar 
-                    flat 
-                    color="rgba(0,0,0,0)">
-                    <v-chip 
-                      class="ma-2" 
-                      color="black" 
-                      text-color="white" 
-                      dense>
-                      <v-avatar left>
-                        <v-icon color="yellow">fas fa-star</v-icon>
-                      </v-avatar>
-                      4.2
-                    </v-chip>
-                    <v-spacer />
-                    <v-btn 
-                      class="" 
-                      fab 
-                      x-small 
-                      color="white">
-                      <v-icon>far fa-heart </v-icon>
-                    </v-btn>
-                  </v-app-bar>
-                  <div
-                    class="d-flex flex-column justify-space-between align-center"
-                  >
-                    <v-img 
-                      src= "preview_list.dishImage"
-                      max-height="180" 
-                      max-width="180" />
-                  </div>
-                  <v-app-bar 
-                    flat 
-                    color="rgba(0,0,0,0)">
-                    <h5 class="ml-1 grey--text text-lighten-3">{{ preview_list.dishName }}</h5>
-                    <v-chip
-                      class="ma-2"
-                      color="grey lighten-3"
-                      text-color="red"
-                      dense
-                    >
-                      250g
-                    </v-chip>
-                  </v-app-bar>
-                  <h5 class="ml-5 mt-n5">{{ preview_list.dishPrice }}</h5>
-                </v-card>
-              </v-hover>
-            </v-col>
-          </div>
-        </template>
-      </span>
-      <span v-else>
+
+      <span v-if="preview_list[0] == null">
         <v-row class="mt-n6">
           <v-col 
             cols="12" 
@@ -195,10 +135,7 @@
                 <div
                   class="d-flex flex-column justify-space-between align-center"
                 >
-                  <v-img 
-                    src= "0.png" 
-                    max-height="180" 
-                    max-width="180" />
+                  <v-img src="0.png" />
                 </div>
                 <v-app-bar 
                   flat 
@@ -213,7 +150,7 @@
                     250g
                   </v-chip>
                 </v-app-bar>
-                <h5 class="ml-5 mt-n5">$4.99</h5>
+                <h5 class="ml-5 mt-n5">₹4.99</h5>
               </v-card>
             </v-hover>
           </v-col>
@@ -252,10 +189,7 @@
                 <div
                   class="d-flex flex-column justify-space-between align-center"
                 >
-                  <v-img 
-                    src="1.png" 
-                    max-height="180" 
-                    max-width="180" />
+                  <v-img src="1.png" />
                 </div>
                 <v-app-bar 
                   flat 
@@ -270,7 +204,7 @@
                     300g
                   </v-chip>
                 </v-app-bar>
-                <h5 class="ml-5 mt-n5">$6.30</h5>
+                <h5 class="ml-5 mt-n5">₹6.30</h5>
               </v-card>
             </v-hover>
           </v-col>
@@ -309,10 +243,7 @@
                 <div
                   class="d-flex flex-column justify-space-between align-center"
                 >
-                  <v-img 
-                    src="3.png" 
-                    max-height="180" 
-                    max-width="180" />
+                  <v-img src="3.png" />
                 </div>
                 <v-app-bar 
                   flat 
@@ -367,10 +298,7 @@
                 <div
                   class="d-flex flex-column justify-space-between align-center"
                 >
-                  <v-img 
-                    src="4.png" 
-                    max-height="180" 
-                    max-width="180" />
+                  <v-img src="4.png" />
                 </div>
                 <v-app-bar 
                   flat 
@@ -424,11 +352,8 @@
                 <div
                   class="d-flex flex-column justify-space-between align-center"
                 >
-                  <v-img
-                    src="8.png"
-                    max-height="180"
-                    max-width="180"
-                    class="mt-n5"
+                  <v-img 
+                    src="8.png" 
                   />
                 </div>
                 <v-app-bar 
@@ -453,6 +378,70 @@
           </v-col>
         </v-row>
       </span>
+      <span v-else>
+        <template>
+          <v-row class="mt-n6">
+            <v-col
+              v-for="item of preview_list"
+              :key="item.dishName"
+              col="12"
+              sm="4"
+            >
+              <v-hover 
+                v-slot="{ hover }" 
+                open-delay="200">
+                <v-card 
+                  :elevation="hover ? 16 : 2" 
+                  color="red lighten-5">
+                  <v-app-bar 
+                    flat 
+                    color="rgba(0,0,0,0)">
+                    <v-chip 
+                      class="ma-2" 
+                      color="black" 
+                      text-color="white" 
+                      dense>
+                      <v-avatar left>
+                        <v-icon color="yellow">fas fa-star</v-icon>
+                      </v-avatar>
+                      4.2
+                    </v-chip>
+                    <v-spacer />
+                    <v-btn 
+                      class="" 
+                      fab 
+                      x-small 
+                      color="white">
+                      <v-icon>far fa-heart </v-icon>
+                    </v-btn>
+                  </v-app-bar>
+                  <div
+                    class="d-flex flex-column justify-space-between align-center dish-img"
+                  >
+                    <v-img :src="item.dishPhoto" />
+                  </div>
+                  <v-app-bar 
+                    flat 
+                    color="rgba(0,0,0,0)">
+                    <h5 class="ml-1 grey--text text-lighten-3">
+                      {{ item.dishName }}
+                    </h5>
+                    <v-chip
+                      class="ma-2"
+                      color="grey lighten-3"
+                      text-color="red"
+                      dense
+                    >
+                      250g
+                    </v-chip>
+                  </v-app-bar>
+                  <h5 class="ml-5 mt-n5">₹{{ item.dishPrice }}</h5>
+                </v-card>
+              </v-hover>
+            </v-col>
+          </v-row>
+        </template>
+      </span>
       <div class="d-flex flex-column justify-space-between align-center">
         <v-btn 
           class="px-15 mt-2" 
@@ -469,28 +458,21 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapState, mapMutations } from "vuex";
 export default {
   layout: "custom",
   data() {
     return {
-      image:null,
-      url: null,
-      image1:null,
       drawer: null,
       showChild: false,
-      image_list: [],
-      
     };
   },
-  computed:{
-    preview_list(){
-      return JSON.parse(localStorage.getItem('list'))
-    }
+  computed: {
+    preview_list() {
+      return this.$store.getters["addMenu/MenuList"];
+    },
   },
-  watch:{
-    
-  },
+  watch: {},
   methods: {
     //  Preview_image() {
     //   this.url= URL.createObjectURL(this.image)
@@ -499,11 +481,34 @@ export default {
     // }
     showUpload() {
       console.log("Button click");
+      // console.log("List",this.$store.getters['addMenu/MenuList'])
+      // for(item of this.preview_list){
+      // console.log(item)}
       this.showChild = !this.showChild;
     },
     closeDialog() {
       this.showChild = !this.showChild;
     },
+    upload() {
+      this.showChild = !this.showChild;
+    },
   },
 };
 </script>
+<style>
+.v-responsive__sizer {
+  width: 180px;
+  height: 180px;
+}
+.v-image__image--cover {
+  width: 100%;
+  background-size: contain;
+}
+/* .v-responsive__sizer .v-image__image{
+  width: 100%;
+  background-size: contain;
+}  */
+.v-responsive__content {
+  width: auto !important;
+}
+</style>
