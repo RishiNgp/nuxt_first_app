@@ -374,9 +374,9 @@ export default {
     Preview_image() {
       return this.$store.getters["addMenu/MenuList"];
     },
-    Total(){
-      return 
-    }
+    // Total(){
+    //   return 
+    // }
   },
   methods: {
     addItem() {
