@@ -1,4 +1,4 @@
-import axios from 'axios';
+
 export const state = () => ({
   list:[],
     dishname:null,
@@ -19,28 +19,55 @@ export const getters = {
 };
 export const actions = {
 
-  async uploadMenu({ commit }, payload) {
-    //console.log(payload)
-    //console.log(addItem.get("dishname"));
+  async uploadMenu({ commit}, payload) {
     await commit('setMenu', payload);
   },
+  async changeName({commit,getters},editData){
+    for(const key in getters.MenuList){ 
+    if(key==editData.itemNumber){
+      await commit ('setName',editData)
+      }
+    }
+  },
+  async changePrice({commit,getters},editData){
+    for(const key in getters.MenuList){ 
+    if(key==editData.itemNumber){
+      await commit ('setPrice',editData);
+      }
+    }
+  },
+  async changeImage({commit,getters},editData){
+    for(const key in getters.MenuList){ 
+    if(key==editData.itemNumber){
+      await commit ('setImage',editData);
+      }
+    }
+  },
+  async addItem({commit,getters},add){
+    await commit('setAdd',addData);
+  }
+ 
 };
 export const mutations = {
+     async setAdd(state,addData){
+     const data=state.list.find(ele=>ele.id==addData.id)
+     if(data){
+      data.dishPrice=ele*2
+     }
+     },
     async setMenu(state,payload){
-      // state.list=payload
-      // console.log("PayLoad",payload.dishName)
-      
-        state.dishname=payload.dishName
-        console.log("state",state.dishname)
-        state.dishprice=payload.dishPrice
-        state.dishcalories=payload.dishCalories
-        state.dishimage=payload.dishPhoto
-
-        // const x= JSON.stringify(payload)
         await state.list.push(payload)
-        console.log("mutation",state.list[0].dishPhoto)
         localStorage.setItem('list',JSON.stringify(payload))
-    }
+    },
+    async setName(state,editData){
+      state.list[editData.itemNumber].dishName=editData.dishName 
+     },
+     async setPrice(state,editData){
+      state.list[editData.itemNumber].dishPrice=editData.dishPrice 
+     },
+     async setImage(state,editData){
+      state.list[editData.itemNumber].dishPhoto=editData.dishImage 
+     },
 
 };
 export default{

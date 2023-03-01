@@ -242,12 +242,11 @@
     <span v-else>
       <v-container>
         <v-row 
-          v-for="item of Preview_image" 
-          :key="item.dishName">
+          v-for="(item,ind) in Preview_image" 
+          :key="ind">
           <v-col 
             cols="12" 
             sm="3">
-            <!-- :src="require('~/static/0.png')" -->
             <v-img
               :src="item.dishPhoto"
               max-height="50"
@@ -277,7 +276,7 @@
               <v-icon 
                 left 
                 x-small 
-                @click="addItem"> fas fa-plus </v-icon>
+                @click="addItem(item)"> fas fa-plus </v-icon>
               <v-divider 
                 vertical 
                 inset 
@@ -290,9 +289,9 @@
               <v-icon 
                 right 
                 x-small 
-                @click="reduceItem"> fas fa-minus </v-icon>
+                @click="reduceItem(item)"> fas fa-minus </v-icon>
             </v-chip>
-            <strong class="ml-1 mr-1">₹{{ item.dishPrice * add }} </strong>
+            <strong class="ml-1 mr-1">₹{{ item.dishPrice }} </strong>
             <v-icon x-small> fas fa-times </v-icon>
           </v-col>
         </v-row>
@@ -310,7 +309,7 @@
       color="grey lighten-3">
       <h3>Total</h3>
       <v-spacer />
-      <h3>$15.46</h3>
+      <h3>{{ total }}</h3>
     </v-toolbar>
     <div class="text-center">
       <v-btn 
@@ -363,30 +362,41 @@
 </template>
 
 <script>
-import Vue from 'vue';
+import Vue from "vue";
+import { mapActions } from "vuex";
 export default {
   data() {
     return {
-      add: 1,
+      add: 0,
+      total: 0,
     };
   },
   computed: {
     Preview_image() {
       return this.$store.getters["addMenu/MenuList"];
     },
-    // Total(){
-    //   return 
-    // }
+    
   },
+
   methods: {
+    ...mapActions("addMenu", ["addItem"]),
     addItem() {
-     
-      this.add += 1;
+      // this.add+=1;
+      // const x = this.$store.getters["addMenu/MenuList"];
+      // for (const key in x) {
+      //   this.total += parseInt(x[key].dishPrice);
+      // }
+      this.addItem(ele)
+    
     },
     reduceItem() {
-      if(this.add>0){
-      this.add -= 1;}
-      else{
+      if (this.add > 0) {
+        this.add -= 1;
+      const x = this.$store.getters["addMenu/MenuList"];
+      for (const key in x) {
+        this.total -= parseInt(x[key].dishPrice);
+      }
+      } else {
         Vue.toasted.global.negative_valu_error();
       }
     },

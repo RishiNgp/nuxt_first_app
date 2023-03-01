@@ -62,8 +62,8 @@
             <span v-if="showChild">
               <Upload 
                 @upload-image="upload" 
-                @close-dialog="closeDialog"
-            /></span>
+                @close-dialog="closeDialog" />
+            </span>
           </v-toolbar>
         </v-col>
         <v-col 
@@ -352,9 +352,7 @@
                 <div
                   class="d-flex flex-column justify-space-between align-center"
                 >
-                  <v-img 
-                    src="8.png" 
-                  />
+                  <v-img src="8.png" />
                 </div>
                 <v-app-bar 
                   flat 
@@ -382,7 +380,7 @@
         <template>
           <v-row class="mt-n6">
             <v-col
-              v-for="item of preview_list"
+              v-for="(item,ind) in preview_list"
               :key="item.dishName"
               col="12"
               sm="4"
@@ -412,12 +410,12 @@
                       fab 
                       x-small 
                       color="white">
-                      <v-icon>far fa-heart </v-icon>
+                      <v-icon @click="addCart(item)">fa fa-cart-plus </v-icon>
                     </v-btn>
                   </v-app-bar>
                   <div
                     class="d-flex flex-column justify-space-between align-center dish-img"
-                  >
+                  > 
                     <v-img :src="item.dishPhoto" />
                   </div>
                   <v-app-bar 
@@ -435,7 +433,18 @@
                       250g
                     </v-chip>
                   </v-app-bar>
-                  <h5 class="ml-5 mt-n5">₹{{ item.dishPrice }}</h5>
+                  <v-app-bar 
+                    flat 
+                    color="rgba(0,0,0,0)">
+                    <h5 class="ml-5 mt-n5">₹{{ item.dishPrice }}</h5>
+                    <v-spacer />
+                    
+                    <v-icon @click="editPrice">fas fa-edit</v-icon>
+                    <span v-if="editButton">
+                      <editForm 
+                        @close-editForm="editPrice"
+                        @edit-dishName="editNameSave"/></span>
+                  </v-app-bar>
                 </v-card>
               </v-hover>
             </v-col>
@@ -465,25 +474,29 @@ export default {
     return {
       drawer: null,
       showChild: false,
+      editButton: false,
     };
   },
   computed: {
     preview_list() {
       return this.$store.getters["addMenu/MenuList"];
     },
+    ...mapMutations('addMenu',['changePrice'])
   },
   watch: {},
   methods: {
-    //  Preview_image() {
-    //   this.url= URL.createObjectURL(this.image)
-    //   localStorage.setItem("dishimage",this.url)
-    //   this.image1=localStorage.getItem("dishimage")
-    // }
+    addCart(){
+
+    },
+    editPrice(){
+      this.editButton=!this.editButton
+    },
+    editNameSave(){
+      this.editButton=!this.editButton
+    },
+    
     showUpload() {
       console.log("Button click");
-      // console.log("List",this.$store.getters['addMenu/MenuList'])
-      // for(item of this.preview_list){
-      // console.log(item)}
       this.showChild = !this.showChild;
     },
     closeDialog() {
@@ -500,10 +513,11 @@ export default {
   width: 180px;
   height: 180px;
 }
+
 .v-image__image--cover {
-  width: 100%;
   background-size: contain;
 }
+
 /* .v-responsive__sizer .v-image__image{
   width: 100%;
   background-size: contain;
