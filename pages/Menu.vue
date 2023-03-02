@@ -381,7 +381,7 @@
           <v-row class="mt-n6">
             <v-col
               v-for="(item,ind) in preview_list"
-              :key="item.dishName"
+              :key="ind"
               col="12"
               sm="4"
             >
@@ -410,7 +410,7 @@
                       fab 
                       x-small 
                       color="white">
-                      <v-icon @click="addCart(item)">fa fa-cart-plus </v-icon>
+                      <v-icon @click="addCart(item,ind)">fa fa-cart-plus </v-icon>
                     </v-btn>
                   </v-app-bar>
                   <div
@@ -439,11 +439,11 @@
                     <h5 class="ml-5 mt-n5">₹{{ item.dishPrice }}</h5>
                     <v-spacer />
                     
-                    <v-icon @click="editPrice">fas fa-edit</v-icon>
+                    <v-icon @click="editMenuItem()">fas fa-edit</v-icon>
                     <span v-if="editButton">
                       <editForm 
-                        @close-editForm="editPrice"
-                        @edit-dishName="editNameSave"/></span>
+                        @close-editForm="editMenuItem"
+                    /></span>
                   </v-app-bar>
                 </v-card>
               </v-hover>
@@ -467,7 +467,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import {mapActions } from "vuex";
 export default {
   layout: "custom",
   data() {
@@ -475,23 +475,23 @@ export default {
       drawer: null,
       showChild: false,
       editButton: false,
+      dishItemNo:0
     };
   },
   computed: {
     preview_list() {
       return this.$store.getters["addMenu/MenuList"];
     },
-    ...mapMutations('addMenu',['changePrice'])
+   
   },
   watch: {},
   methods: {
-    addCart(){
-
+    ...mapActions("addMenu",["addToCart","fetchItemNo"]),
+    addCart(Item,index){
+      Item.var=index
+      this.addToCart(Item)
     },
-    editPrice(){
-      this.editButton=!this.editButton
-    },
-    editNameSave(){
+    editMenuItem(){
       this.editButton=!this.editButton
     },
     
@@ -507,7 +507,7 @@ export default {
     },
   },
 };
-</script>
+</script>await state.cart.push(payload)
 <style>
 .v-responsive__sizer {
   width: 180px;

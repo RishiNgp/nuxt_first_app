@@ -70,6 +70,7 @@ export default {
                       <v-text-field
                         v-model="dishname"
                         :rules="[rules.required]"
+                        type="string"
                         label="Dishname*"
                         required
                       />
@@ -88,6 +89,15 @@ export default {
                         v-model="dishcalories"
                         :rules="[rules.required]"
                         label="Calories*"
+                        type="number"
+                        required
+                      />
+                    </v-col>
+                    <v-col cols="12">
+                      <v-text-field
+                        v-model="dishQuantity"
+                        :rules="[rules.required]"
+                        label="Quantity*"
                         type="number"
                         required
                       />
@@ -162,6 +172,7 @@ export default {
       dishprice: "",
       dishphoto: [],
       dishcalories: "",
+      dishQuantity:"",
 
       dialog: true,
       tab: 0,
@@ -189,17 +200,7 @@ export default {
       },
     };
   },
-  // watch: {
-  //   value: {
-  //     immediate: true,
-  //     deep: true,
-  //     handler(value) {
-  //       if (value) {
-  //         this.files = value;
-  //       }
-  //     },this.formUpload
-  //   },
-  // },
+
   methods: {
     ...mapActions("addMenu", ["uploadMenu"]),
     async Upload() {
@@ -208,22 +209,16 @@ export default {
           const image = URL.createObjectURL(this.dishphoto);
           // const reader=new FileReader();
           // reader.readAsDataURL(this.dishimage);
-          console.log(image);
 
           const payload = {
             dishName: this.dishname,
             dishPrice: this.dishprice,
             dishCalories: this.dishcalories,
+            dishQuantity:this.dishQuantity,
             dishPhoto: image,
           };
 
           await this.uploadMenu(payload);
-          // this.$refs.form.reset();
-          // this.$refs.form.resetValidation();
-          // localStorage.setItem('dishname:',this.dishname)
-          // localStorage.setItem('dishprice',this.dishprice)
-          // localStorage.setItem('dishphoto',this.dishphoto)
-          // this.$router.push("/home")
         }
       } catch (error) {
         alert("please fill the required data",error)

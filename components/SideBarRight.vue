@@ -248,7 +248,7 @@
             cols="12" 
             sm="3">
             <v-img
-              :src="item.dishPhoto"
+              :src="item.cartImage"
               max-height="50"
               max-width="50"
               contain
@@ -259,7 +259,7 @@
             cols="12" 
             sm="3">
             <h6 class="ml-n6 grey--text text--darken-2">
-              {{ item.dishName }} <br >
+              {{ item.cartName }} <br >
               <span class="grey--text text--lighten-1">350g</span>
             </h6>
           </v-col>
@@ -276,12 +276,12 @@
               <v-icon 
                 left 
                 x-small 
-                @click="addItem(item)"> fas fa-plus </v-icon>
+                @click="addQuantity(item,ind)"> fas fa-plus </v-icon>
               <v-divider 
                 vertical 
                 inset 
                 class="mr-1" />
-              {{ add }}
+              {{ item.cartQuantity }}
               <v-divider 
                 vertical 
                 inset 
@@ -289,10 +289,12 @@
               <v-icon 
                 right 
                 x-small 
-                @click="reduceItem(item)"> fas fa-minus </v-icon>
+                @click="reduceQuantity(item,ind)"> fas fa-minus </v-icon>
             </v-chip>
-            <strong class="ml-1 mr-1">₹{{ item.dishPrice }} </strong>
-            <v-icon x-small> fas fa-times </v-icon>
+            <strong class="ml-1 mr-1">₹{{ item.cartPrice }} </strong>
+            <v-icon 
+              x-small 
+              @click="removeFromCart(item,ind)"> fas fa-times </v-icon>
           </v-col>
         </v-row>
       </v-container>
@@ -307,7 +309,7 @@
       class="pl-0" 
       flat 
       color="grey lighten-3">
-      <h3>Total</h3>
+      <v-btn @click="Total">Total</v-btn>
       <v-spacer />
       <h3>{{ total }}</h3>
     </v-toolbar>
@@ -368,38 +370,39 @@ export default {
   data() {
     return {
       add: 0,
-      total: 0,
+      total:0
     };
   },
   computed: {
     Preview_image() {
-      return this.$store.getters["addMenu/MenuList"];
+      return this.$store.getters["addMenu/CartList"];
     },
-    
   },
 
   methods: {
-    ...mapActions("addMenu", ["addItem"]),
-    addItem() {
-      // this.add+=1;
-      // const x = this.$store.getters["addMenu/MenuList"];
-      // for (const key in x) {
-      //   this.total += parseInt(x[key].dishPrice);
-      // }
-      this.addItem(ele)
-    
+    ...mapActions("addMenu", ["addItemQuantity" ,"reduceItemQuantity","removeItem"]),
+    addQuantity(Item,index) {
+      Item.var=index
+     this.addItemQuantity(Item)
     },
-    reduceItem() {
-      if (this.add > 0) {
-        this.add -= 1;
-      const x = this.$store.getters["addMenu/MenuList"];
-      for (const key in x) {
-        this.total -= parseInt(x[key].dishPrice);
-      }
-      } else {
-        Vue.toasted.global.negative_valu_error();
-      }
+    reduceQuantity(Item,index) {
+     Item.var=index
+     this.reduceItemQuantity(Item)
     },
+    Total(){
+      this.total=0
+      for(const key in this.Preview_image){
+        console.log(key,this.Preview_image[key].cartPrice)
+        this.total += parseInt(this.Preview_image[key].cartPrice)
+      }
+      return this.total
+    },
+    removeFromCart(Item,index){
+      Item.var=index
+      this.removeItem(Item)
+      
+      //  this.Preview_image.splice(this.Preview_image.findIndex(a=>a.var===this.Preview_image[index]),1)
+    }
   },
 };
 </script>
