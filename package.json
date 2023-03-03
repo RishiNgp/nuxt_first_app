@@ -26,6 +26,7 @@
     "nuxt": "^2.0.0",
     "nuxt-material-design-icons-iconfont": "^1.0.2",
     "save": "^2.9.0",
+    "vue-flip": "^1.0.2",
     "vuex": "^3.6.2"
   },
   "devDependencies": {

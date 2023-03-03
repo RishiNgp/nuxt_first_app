@@ -178,7 +178,7 @@ export default {
       tab: 0,
       FileValid: true,
       show: false,
-      tabs: [{ name: "UploadDish", icon: "mdi-silverware" }],
+      tabs: [{ name: "Upload New Dish", icon: "mdi-silverware" }],
       Filerules: [
         (value) => {
           return (
@@ -206,18 +206,15 @@ export default {
     async Upload() {
       try {
         if (this.$refs.uploadForm.validate()) {
-          const image = URL.createObjectURL(this.dishphoto);
-          // const reader=new FileReader();
-          // reader.readAsDataURL(this.dishimage);
+          //const image = URL.createObjectURL(this.dishphoto);
 
           const payload = {
             dishName: this.dishname,
             dishPrice: this.dishprice,
             dishCalories: this.dishcalories,
             dishQuantity:this.dishQuantity,
-            dishPhoto: image,
+            dishPhoto: this.dishphoto,
           };
-
           await this.uploadMenu(payload);
         }
       } catch (error) {

@@ -9,8 +9,6 @@ export default function check({ route, redirect }) {
 
    // (username !== localStorage.getItem("username")||password!==localStorage.getItem("password"))
     // If the user is not authenticated
-    console.log(store.getters()
-      )
     if (route.path!="/" && (username !== localStorage.getItem("username")||password!==localStorage.getItem("password"))) {
         // this.$toasted.show('hello billo')
         Vue.toasted.global.my_app_error();

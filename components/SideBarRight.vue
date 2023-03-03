@@ -309,9 +309,9 @@
       class="pl-0" 
       flat 
       color="grey lighten-3">
-      <v-btn @click="Total">Total</v-btn>
+      <h3>Total</h3>
       <v-spacer />
-      <h3>{{ total }}</h3>
+      <h3>{{ netTotal }}</h3>
     </v-toolbar>
     <div class="text-center">
       <v-btn 
@@ -377,6 +377,11 @@ export default {
     Preview_image() {
       return this.$store.getters["addMenu/CartList"];
     },
+    netTotal(){
+      return this.Total()
+    }
+  
+
   },
 
   methods: {
@@ -389,20 +394,20 @@ export default {
      Item.var=index
      this.reduceItemQuantity(Item)
     },
-    Total(){
-      this.total=0
-      for(const key in this.Preview_image){
-        console.log(key,this.Preview_image[key].cartPrice)
-        this.total += parseInt(this.Preview_image[key].cartPrice)
-      }
-      return this.total
-    },
+  
     removeFromCart(Item,index){
       Item.var=index
       this.removeItem(Item)
       
       //  this.Preview_image.splice(this.Preview_image.findIndex(a=>a.var===this.Preview_image[index]),1)
-    }
+    },
+    Total(){
+      this.total=0
+      for(const key in this.Preview_image){
+        this.total += parseInt(this.Preview_image[key].cartPrice)
+      }
+      return this.total
+    },
   },
 };
 </script>

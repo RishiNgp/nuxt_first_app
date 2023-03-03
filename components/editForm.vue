@@ -34,11 +34,9 @@
                     <v-col cols="12">
                       <v-text-field
                         v-model="dishItemNo"
-                        :rules="[rules.required]"
                         variant="outlined"
                         type="number"
                         label="ItemNo*"
-                        required
                       />
                     </v-col>
                     <v-col cols="12">
@@ -57,6 +55,24 @@
                       />
                     </v-col>
                     <v-col cols="12">
+                      <v-text-field
+                        v-model="dishquantity"
+                        :rules="[rules.required]"
+                        label="Quantity*"
+                        type="number"
+                        required
+                      />
+                    </v-col>
+                    <v-col cols="12">
+                      <v-text-field
+                        v-model="dishcalories"
+                        :rules="[rules.required]"
+                        label="Calories*"
+                        type="number"
+                        required
+                      />
+                    </v-col>
+                    <v-col cols="12">
                       <v-file-input
                         v-model="dishimage"
                         accept="image/png, image/jpeg, image/bmp"
@@ -68,8 +84,17 @@
                     <v-col 
                       class="d-flex" 
                       cols="12" 
-                      sm="6" 
-                      xsm="12" />
+                      sm="3" 
+                      xsm="12"
+                      align-end >
+                      <v-btn 
+                        x-large 
+                        block 
+                        color="error" 
+                        @click="Fetch">
+                        Fetch
+                      </v-btn>
+                    </v-col>
                     <v-spacer />
                     <v-col 
                       class="d-flex" 
@@ -102,6 +127,9 @@
                       </v-btn>
                     </v-col>
                   </v-row>
+                  <v-card-actions>
+                    <v-spacer/>
+                  </v-card-actions>
                 </v-form>
               </v-card-text>
             </v-card>
@@ -116,10 +144,13 @@ import { mapMutations, mapActions } from "vuex";
 export default {
   data() {
     return {
+     
       dishprice: "",
       dishname: "",
       dishimage: [],
       dishItemNo: '',
+      dishcalories:'',
+      dishquantity:'',
       dialog: true,
       tab: 0,
       editDishPriceValid: true,
@@ -129,8 +160,6 @@ export default {
       tabs: 
         { name: "Update Menu", 
         icon: "mdi-silverware" },
-        // { name: "EditDishName", icon: "mdi-silverware-variant" },
-        // { name: "EditDishImage", icon: "mdi-account-circle" },
       
       Filerules: [
         (value) => {
@@ -155,21 +184,33 @@ export default {
   },
   computed: {
     List() {
-      return this.$store.getters["addMenu/MenuList"];
+      return this.$store.getters["addMenu/FormData"];
     },
-  },
+},
+watch:{
+
+},
   methods: {
     ...mapActions("addMenu", ["actionEditMenu"]),
-    
-    editMenu() {
+    Fetch(){
+     this.dishprice = this.List.dishPrice
+     this.dishname = this.List.dishName
+     this.dishimage= this.List.dishPhoto
+     this.dishItemNo =this.List.dishItemNumber
+     this.dishcalories=this.List.dishCalories
+     this.dishquantity=this.List.dishQuantity
+    },
+    editMenu() { 
       try {
         if (this.$refs.editDishNameValid.validate()) {
           const image=URL.createObjectURL(this.dishimage)
           const editData = {
-            dishName: this.dishname,
-            itemNumber: this.dishItemNo,
-            dishPhoto:image,
-            dishPrice:this.dishprice
+            MenuName: this.dishname,
+            MenuItemNo: this.dishItemNo,
+            MenuQuantity:this.dishquantity,
+            MenuCalories:this.dishprice,
+            MenuImage:image,
+            MenuPrice:this.dishprice
           };
           this.actionEditMenu(editData);
         }
@@ -182,6 +223,8 @@ export default {
       }
     },
     cancel() {
+
+      console.log(this.List)
       this.$emit("close-editForm");
     },
   },
