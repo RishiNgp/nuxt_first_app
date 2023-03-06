@@ -33,48 +33,60 @@
                   <v-row>
                     <v-col cols="12">
                       <v-text-field
-                        v-model="dishItemNo"
+                        v-model="List.dishItemNumber"
+                        :rules="[rules.required]"
                         variant="outlined"
                         type="number"
+                        min="0"
                         label="ItemNo*"
-                      />
-                    </v-col>
-                    <v-col cols="12">
-                      <v-text-field
-                        v-model="dishname"
-                        label="Dishname*"
-                        type="text"
-                        pattern="[a-zA-Z]+"
-                      />
-                    </v-col>
-                    <v-col cols="12">
-                      <v-text-field
-                        v-model="dishprice"
-                        type="number"
-                        label="₹Price*"
-                      />
-                    </v-col>
-                    <v-col cols="12">
-                      <v-text-field
-                        v-model="dishquantity"
-                        :rules="[rules.required]"
-                        label="Quantity*"
-                        type="number"
                         required
                       />
                     </v-col>
                     <v-col cols="12">
                       <v-text-field
-                        v-model="dishcalories"
+                        v-model="List.dishName"
+                        :rules="[rules.required]"
+                        variant="outlined"
+                        label="Dishname*"
+                        type="text"
+                        pattern="[a-zA-Z]+"
+                        required
+                      />
+                    </v-col>
+                    <v-col cols="12">
+                      <v-text-field
+                        v-model="List.dishPrice"
+                        :rules="[rules.required]"
+                        type="number"
+                        min="0"
+                        label="₹Price*"
+                        required
+                      />
+                    </v-col>
+                    <v-col cols="12">
+                      <v-text-field
+                        v-model="List.dishQuantity"
+                        :rules="[rules.required]"
+                        label="Quantity*"
+                        type="number"
+                        min="0"
+                        required
+                      />
+                    </v-col>
+                    <v-col cols="12">
+                      <v-text-field
+                        v-model="List.dishCalories"
                         :rules="[rules.required]"
                         label="Calories*"
                         type="number"
+                        min="0"
                         required
                       />
                     </v-col>
                     <v-col cols="12">
                       <v-file-input
-                        v-model="dishimage"
+                        v-model="List.dishImage"
+                        :rules="[rules.required]"
                         accept="image/png, image/jpeg, image/bmp"
                         placeholder="Pick a dish"
                         prepend-icon="mdi-camera"
@@ -86,15 +98,15 @@
                       cols="12" 
                       sm="3" 
                       xsm="12"
-                      align-end >
-                      <v-btn 
+                      align-end />
+                    <!-- <v-btn 
                         x-large 
                         block 
                         color="error" 
                         @click="Fetch">
                         Fetch
-                      </v-btn>
-                    </v-col>
+                      </v-btn> -->
+                    <!-- </v-col> -->
                     <v-spacer />
                     <v-col 
                       class="d-flex" 
@@ -186,36 +198,29 @@ export default {
     List() {
       return this.$store.getters["addMenu/FormData"];
     },
+   
 },
-watch:{
 
-},
   methods: {
     ...mapActions("addMenu", ["actionEditMenu"]),
-    Fetch(){
-     this.dishprice = this.List.dishPrice
-     this.dishname = this.List.dishName
-     this.dishimage= this.List.dishPhoto
-     this.dishItemNo =this.List.dishItemNumber
-     this.dishcalories=this.List.dishCalories
-     this.dishquantity=this.List.dishQuantity
-    },
+
     editMenu() { 
+      console.log(this.List)
       try {
         if (this.$refs.editDishNameValid.validate()) {
-          const image=URL.createObjectURL(this.dishimage)
-          const editData = {
-            MenuName: this.dishname,
-            MenuItemNo: this.dishItemNo,
-            MenuQuantity:this.dishquantity,
-            MenuCalories:this.dishprice,
-            MenuImage:image,
-            MenuPrice:this.dishprice
-          };
-          this.actionEditMenu(editData);
+          // const editData = {
+          //   dishName: this.List.dishName,
+          //   dishItemNumber: this.List.dishItemNumber,
+          //   dishQuantity:this.List.dishQuantity,
+          //   dishCalories:this.List.dishCalories,
+          //   dishImage:this.List.dishImage,
+          //   dishPrice:this.List.dishPrice
+          // };
+          // console.log(editData);
+          console.log("Inside if",this.List)
+          this.actionEditMenu(this.List);
         }
       } catch (error) {
-        console.log("error occured");
         console.log(error);
       } finally {
         this.dialog = false;

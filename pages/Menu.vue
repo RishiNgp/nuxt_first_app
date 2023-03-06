@@ -429,7 +429,9 @@
                   <div
                     class="d-flex flex-column justify-space-between align-center dish-img"
                   >
-                    <v-img :src="item.MenuImage" />
+                    <v-img
+                      :src="item.MenuImage"
+                    />
                   </div>
                   <v-app-bar 
                     flat 
@@ -443,7 +445,7 @@
                       text-color="red"
                       dense
                     >
-                      250g
+                      {{ item.MenuQuantity }}
                     </v-chip>
                   </v-app-bar>
                   <v-app-bar 
@@ -508,7 +510,8 @@ export default {
   },
   computed: {
     preview_list() {
-      return this.$store.getters["addMenu/MenuList"];
+      console.log("Menu Computed",this.$store.getters["addMenu/MenuList"]);
+      return this.$store.state.addMenu.menu
     },
     Fetch(){
       return this.$store.getters["addMenu/OrignalList"];
@@ -518,9 +521,11 @@ export default {
     
   },
   methods: {
-    ...mapActions("addMenu", ["addToCart", "fetchItem"]),
-    deleteFromMenu(){
-
+    ...mapActions("addMenu", ["addToCart", "fetchItem","DeleteMenuItem"]),
+    deleteFromMenu(Item,index){
+      Item.var=index;
+      this.DeleteMenuItem(Item);
+      
     },
     addCart(Item, index) {
       Item.var = index;
@@ -547,7 +552,6 @@ export default {
   },
 };
 </script>
-await state.cart.push(payload)
 <style>
 .v-responsive__sizer {
   width: 180px;

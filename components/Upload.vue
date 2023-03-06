@@ -70,7 +70,7 @@ export default {
                       <v-text-field
                         v-model="dishname"
                         :rules="[rules.required]"
-                        type="string"
+                        type="text"
                         label="Dishname*"
                         required
                       />
@@ -80,6 +80,7 @@ export default {
                         v-model="dishprice"
                         :rules="[rules.required]"
                         type="number"
+                        min="0"
                         label="₹Price*"
                         required
                       />
@@ -90,6 +91,7 @@ export default {
                         :rules="[rules.required]"
                         label="Calories*"
                         type="number"
+                        min="0"
                         required
                       />
                     </v-col>
@@ -99,6 +101,7 @@ export default {
                         :rules="[rules.required]"
                         label="Quantity*"
                         type="number"
+                        min="0"
                         required
                       />
                     </v-col>
@@ -213,12 +216,12 @@ export default {
             dishPrice: this.dishprice,
             dishCalories: this.dishcalories,
             dishQuantity:this.dishQuantity,
-            dishPhoto: this.dishphoto,
+            dishImage: this.dishphoto,
           };
           await this.uploadMenu(payload);
         }
       } catch (error) {
-        alert("please fill the required data",error)
+        console.log(error)
       }finally{
         this.$emit("upload-image")
       }

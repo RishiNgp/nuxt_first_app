@@ -375,7 +375,7 @@ export default {
   },
   computed: {
     Preview_image() {
-      return this.$store.getters["addMenu/CartList"];
+      return this.$store.state.addMenu.cart;
     },
     netTotal(){
       return this.Total()
