@@ -5,7 +5,6 @@ export const state = () => ({
   cart: [],
   menu: [],
   getFetch: [],
-  price: 0,
 });
 
 //GETTERS
@@ -14,17 +13,19 @@ export const getters = {
   MenuList: (state) => state.menu,
   CartList: (state) => state.cart,
   FormData: (state) => state.getFetch,
-  Price: (state) => state.price,
 };
 
 //ACTIONS
 export const actions = {
+  //Delete Item from menu
   async DeleteMenuItem({ commit }, deleteData) {
     await commit("setDeleteMenuItem", deleteData);
   },
+  //Uploding new item to menu
   async uploadMenu({ commit }, payload) {
     await commit("setMenu", payload);
   },
+//Editing in uploaded item
 
   async actionEditMenu({ commit, getters }, editData) {
     console.log(editData)
@@ -34,39 +35,42 @@ export const actions = {
       await commit("setEditMenu", editData);
     }
   },
-  // 
+
+  //displaying data in form
   async fetchItem({ commit }, editData) {
     commit("setfetchItem", editData);
   },
-
+  //add functionality in cart
   async addItemQuantity({ commit, getters }, addData) {
     await commit("setAddQuantity", addData);
   },
+  //subtract functionality in cart
   async reduceItemQuantity({ commit }, addData) {
     console.log(addData);
     await commit("setReduceQuantity", addData);
   },
+  //removing item from cart
   removeItem({ commit }, addData) {
     console.log(addData.var);
     commit("setRemoveItem", addData);
   },
+  //adding item to cart on add button
   addToCart({ commit }, addData) {
     commit("setaddToCart", addData);
   },
 };
 
 //MUTATIONS
-
 export const mutations = {
+
   //Delete Item From Menu
   async setDeleteMenuItem(state, deleteData) {
-    console.log(deleteData.var);
-  
     state.menu=state.menu.filter((el)=>{return el.MenuName!==deleteData.MenuName})
     state.cart=state.cart.filter((el)=>{return el.cartName!==deleteData.MenuName})
     state.list=state.list.filter((el)=>{return el.dishName!==deleteData.MenuName})
   },
   //fetch Item
+
   async setfetchItem(state, editData) {
     const payload3 = {
       dishItemNumber: editData.var,
@@ -76,22 +80,14 @@ export const mutations = {
       dishCalories: editData.MenuCalories,
       dishImage: state.list[editData.var].dishImage,
     };
-    console.log("dishPhoto", state.list[editData.var].dishImage);
     state.getFetch = payload3;
   },
 
   //remove menu from cart
   async setRemoveItem(state, addData) {
-    console.log(
-      "data", state.cart.filter((el)=>{return el.cartName!==addData.cartName})
-    );
-    // state.cart.splice(
-    //   state.cart.findIndex((el) => el.addData === state.cart[addData.var]),
-    //   1
-    // );
+  
     state.cart=state.cart.filter((el)=>{return el.cartName!==addData.cartName})
     
-    console.log("dataafter", state.cart);
   },
 
   //add menu to cart
@@ -143,11 +139,12 @@ export const mutations = {
       Vue.toasted.global.negative_valu_error();
     }
   },
+
   //For adding new Item
  async setMenu(state, payload) {
     const image = URL.createObjectURL(payload.dishImage);
+
     //Storing Data In Cart
-   
     const Cart = {
       cartName: payload.dishName,
       cartPrice: payload.dishPrice,
@@ -155,6 +152,7 @@ export const mutations = {
       cartQuantity: payload.dishQuantity,
       cartImage: image,
     };
+
     //Storing Data In Menu
     const Menu = {
       MenuName: payload.dishName,
@@ -163,7 +161,7 @@ export const mutations = {
       MenuQuantity: payload.dishQuantity,
       MenuImage: image,
     };
-    console.log(state.list.length);
+
     if (state.list.length == 0) {
       state.cart.push(Cart);
       state.menu.push(Menu);
@@ -182,21 +180,12 @@ export const mutations = {
         state.list.push(payload);
       }
     }
-    // localStorage.setItem("list", JSON.stringify(payload));
   },
-async setEditMenu(state, editData) {
- console.log("MenuData",editData.dishName);
-    
-  const image=URL.createObjectURL(editData.dishImage)
 
-    const editCart = {
-      CartName: editData.dishName,
-      CartQuantity: editData.dishQuantity,
-      CartCalories: editData.dishCalories,
-      CartPrice: editData.dishPrice,
-      CartImage: image,
-    };
-      console.log("Before Edit",state.cart);
+  //Update
+async setEditMenu(state, editData) {
+     //converting image to blob file before storing 
+       const image=URL.createObjectURL(editData.dishImage)
 
         state.menu[editData.dishItemNumber].MenuName = editData.dishName;
         state.menu[editData.dishItemNumber].MenuPrice = editData.dishPrice;
@@ -205,18 +194,13 @@ async setEditMenu(state, editData) {
         state.menu[editData.dishItemNumber].MenuImage = image;
 
         //Updating Cart
-        if (state.cart.length == 0) {
-          state.cart.push(editCart)}
-          else{
+        
         state.cart[editData.dishItemNumber].cartName = editData.dishName;
         state.cart[editData.dishItemNumber].cartPrice = editData.dishPrice;
         state.cart[editData.dishItemNumber].cartCalories = editData.dishCalories;
         state.cart[editData.dishItemNumber].cartQuantity = editData.dishQuantity;
         state.cart[editData.dishItemNumber].cartImage = image;
-          }
 
-        console.log("After Edit",state.cart[editData.dishItemNumber]);
-        
         //Updating Orignal List
         state.list[editData.dishItemNumber].dishName = editData.dishName;
         state.list[editData.dishItemNumber].dishPrice = editData.dishPrice;
