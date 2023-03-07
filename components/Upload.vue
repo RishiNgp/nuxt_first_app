@@ -72,6 +72,7 @@ export default {
                         :rules="[rules.required]"
                         type="text"
                         label="Dishname*"
+                        variant="outlined"
                         required
                       />
                     </v-col>
@@ -82,6 +83,7 @@ export default {
                         type="number"
                         min="0"
                         label="₹Price*"
+                        variant="outlined"
                         required
                       />
                     </v-col>
@@ -90,6 +92,7 @@ export default {
                         v-model="dishcalories"
                         :rules="[rules.required]"
                         label="Calories*"
+                        variant="outlined"
                         type="number"
                         min="0"
                         required
@@ -100,6 +103,7 @@ export default {
                         v-model="dishQuantity"
                         :rules="[rules.required]"
                         label="Quantity*"
+                        variant="outlined"
                         type="number"
                         min="0"
                         required
@@ -113,6 +117,7 @@ export default {
                         placeholder="Pick a dish"
                         prepend-icon="mdi-camera"
                         label="Dish"
+                        variant="outlined"
                         required
                       />
                     </v-col>

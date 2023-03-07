@@ -3,6 +3,7 @@
     <SideBarLeft />
     <SideBarRight />
     <v-container>
+
       <v-toolbar 
         flat 
         class="">
@@ -10,7 +11,11 @@
           <v-col 
             cols="12" 
             sm="10">
+            <!-- <v-form> -->
+            <!-- @keydown.enter.prevent="search" -->
             <v-text-field
+              v-model="searchTerm"
+              prepend-inner-icon="fas fa-search"
               label="Search"
               filled
               rounded
@@ -18,19 +23,23 @@
               solo
               flat
               background-color="grey lighten-3"
+              @input="search"
             />
+            <!-- <v-btn 
+                class=""
+                @click="search"><v-icon>fas fa-search</v-icon> Search
+              </v-btn> -->
+            <!-- </v-form>  -->
           </v-col>
           <v-col 
             cols="12" 
             sm="2">
-            <v-btn class=""> <v-icon>fas fa-filter</v-icon> Filter </v-btn>
+            <v-select 
+              :items="items" 
+              class="">  Filter </v-select>
           </v-col>
         </v-row>
       </v-toolbar>
-      <!-- <v-file-input 
-        v-model="image" 
-        @change="Preview_image"/> -->
-      <!-- <v-img :src="url"/> -->
 
       <v-row class="mt-n9">
         <v-col 
@@ -100,70 +109,64 @@
 
       <span v-if="preview_list[0] == null">
         <v-row class="mt-n6">
-          <vue-flip>
-            <template slot="front">
-              <v-col 
-                cols="12" 
-                sm="4">
-                <v-hover 
-                  v-slot="{ hover }" 
-                  open-delay="200">
-                  <v-card 
-                    :elevation="hover ? 16 : 2" 
-                    color="red lighten-5">
-                    <v-app-bar 
-                      flat 
-                      color="rgba(0,0,0,0)">
-                      <v-chip
-                        class="ma-2"
-                        color="black"
-                        text-color="white"
-                        dense
-                      >
-                        <v-avatar left>
-                          <v-icon color="yellow">fas fa-star</v-icon>
-                        </v-avatar>
-                        4.2
-                      </v-chip>
-                      <v-spacer />
+          
+          <v-col 
+            cols="12" 
+            sm="4">
+            <v-hover 
+              v-slot="{ hover }" 
+              open-delay="200">
+              <v-card 
+                :elevation="hover ? 16 : 2" 
+                color="red lighten-5">
+                <v-app-bar 
+                  flat 
+                  color="rgba(0,0,0,0)">
+                  <v-chip
+                    class="ma-2"
+                    color="black"
+                    text-color="white"
+                    dense
+                  >
+                    <v-avatar left>
+                      <v-icon color="yellow">fas fa-star</v-icon>
+                    </v-avatar>
+                    4.2
+                  </v-chip>
+                  <v-spacer />
 
-                      <v-btn 
-                        class="" 
-                        fab 
-                        x-small 
-                        color="white">
-                        <v-icon> far fa-heart </v-icon>
-                      </v-btn>
-                    </v-app-bar>
-                    <div
-                      class="d-flex flex-column justify-space-between align-center"
-                    >
-                      <v-img src="0.png" />
-                    </div>
-                    <v-app-bar 
-                      flat 
-                      color="rgba(0,0,0,0)">
-                      <h5 class="ml-1 grey--text text-lighten-3">
-                        Cabage Salad
-                      </h5>
-                      <v-chip
-                        class="ma-2"
-                        color="grey lighten-3"
-                        text-color="red"
-                        dense
-                      >
-                        250g
-                      </v-chip>
-                    </v-app-bar>
-                    <h5 class="ml-5 mt-n5">₹4.99</h5>
-                  </v-card>
-                </v-hover>
-              </v-col>
-            </template>
-            <template slot="back">
-              <span>Thought u could get rid of me loser?</span>
-            </template>
-          </vue-flip>
+                  <v-btn 
+                    class="" 
+                    fab 
+                    x-small 
+                    color="white">
+                    <v-icon> far fa-heart </v-icon>
+                  </v-btn>
+                </v-app-bar>
+                <div
+                  class="d-flex flex-column justify-space-between align-center"
+                >
+                  <v-img src="0.png" />
+                </div>
+                <v-app-bar 
+                  flat 
+                  color="rgba(0,0,0,0)">
+                  <h5 class="ml-1 grey--text text-lighten-3">
+                    Cabage Salad
+                  </h5>
+                  <v-chip
+                    class="ma-2"
+                    color="grey lighten-3"
+                    text-color="red"
+                    dense
+                  >
+                    250g
+                  </v-chip>
+                </v-app-bar>
+                <h5 class="ml-5 mt-n5">₹4.99</h5>
+              </v-card>
+            </v-hover>
+          </v-col>
           <v-col 
             cols="12" 
             sm="4">
@@ -386,11 +389,11 @@
           </v-col>
         </v-row>
       </span>
-      <span v-else>
+      <span v-else-if="Menu.length>0&&searchTerm!=''">
         <template>
           <v-row class="mt-n6">
             <v-col
-              v-for="(item, ind) in preview_list"
+              v-for="(item, ind) in Menu"
               :key="ind"
               col="12"
               sm="4"
@@ -475,6 +478,98 @@
             </v-col>
           </v-row>
         </template>
+        <!-- <v-btn @click="Back">BACK</v-btn> -->
+      </span>
+      <span v-else>
+        <template>
+          <v-row class="mt-n6">
+            <v-col
+              v-for="(item, ind) in preview_list"
+              :key="ind"
+              col="12"
+              sm="4"
+            >
+              <v-hover 
+                v-slot="{ hover }" 
+                open-delay="200">
+                <v-card 
+                  :elevation="hover ? 16 : 2" 
+                  color="red lighten-5">
+                  <v-app-bar 
+                    flat 
+                    color="rgba(0,0,0,0)">
+                    <v-chip 
+                      class="ma-2" 
+                      color="black" 
+                      text-color="white" 
+                      dense>
+                      <v-avatar left>
+                        <v-icon color="yellow">fa fa-star</v-icon>
+                      </v-avatar>
+                      4.2
+                    </v-chip>
+                    <v-spacer />
+                    <v-btn 
+                      class="" 
+                      fab 
+                      x-small 
+                      color="white">
+                      <v-icon 
+                        @click="addCart(item, ind)"
+                      >fa fa-cart-plus
+                      </v-icon>
+                    </v-btn>
+                  </v-app-bar>
+                  <div
+                    class="d-flex flex-column justify-space-between align-center dish-img"
+                  >
+                    <v-img
+                      :src="item.MenuImage"
+                    />
+                    
+                  </div>
+                  <v-app-bar 
+                    flat 
+                    color="rgba(0,0,0,0)">
+                    <h5 class="ml-1 grey--text text-lighten-3">
+                      {{ item.MenuName }}
+                    </h5>
+                    <v-chip
+                      class="ma-2"
+                      color="grey lighten-3"
+                      text-color="red"
+                      dense
+                    >
+                      {{ item.MenuQuantity }}
+                    </v-chip>
+                  </v-app-bar>
+                  <v-app-bar 
+                    flat 
+                    color="rgba(0,0,0,0)">
+                    <h5 class="ml-5 mt-n5">₹{{ item.MenuPrice }}</h5>
+                    <v-spacer />
+                    <v-btn 
+                      class="" 
+                      fab 
+                      x-small 
+                      color="white">
+                      <v-icon 
+                        @click="deleteFromMenu(item, ind)"
+                      >fa fa-trash
+                      </v-icon>
+                    </v-btn>
+                    <v-spacer />
+                    <v-icon @click="editMenuItem(item,ind)">fas fa-edit</v-icon>
+                    <span v-if="editButton">
+                      <editForm 
+                        @close-editForm="editMenuClose"
+                    /></span>
+                  </v-app-bar>
+                </v-card>
+              </v-hover>
+            </v-col>
+          </v-row>
+        </template>
       </span>
       <div class="d-flex flex-column justify-space-between align-center">
         <v-btn 
@@ -490,18 +585,19 @@
     </v-container>
   </v-app>
 </template>
-
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
 <script>
+import { get } from "http";
 import { mapActions } from "vuex";
-import { VueFlip } from 'vue-flip';
+import debounce from 'lodash/debounce';
 export default {
-  components: {
-    'vue-flip': VueFlip
-  },
   layout: "custom",
   data() {
     return {
       form:{},
+      Menu:[],
+      items:['First Meal','Slim Waist'],
+      searchTerm:'',
       drawer: null,
       showChild: false,
       editButton: false,
@@ -509,17 +605,27 @@ export default {
     };
   },
   computed: {
-    preview_list() {
-      console.log("Menu Computed",this.$store.getters["addMenu/MenuList"]);
-      return this.$store.state.addMenu.menu
+    preview_list: {
+      get(){
+      // this.Menu=this.$store.state.addMenu.menu;
+      return this.$store.state.addMenu.menu;
     },
-    Fetch(){
-      return this.$store.getters["addMenu/OrignalList"];
+    },
+    // debouncedFunction() {
+    //   return debounce(this.search, 2000);
+    // }
+    check(){
+      return this.searchTerm
     }
   },
   watch: {
-    
+    // searchTerm(old,newi){
+    //   this.debouncedFunction()
+    // }
   },
+  // created(){
+  //   this.debouncedFunction= debounce(this.search,500)
+  // },
   methods: {
     ...mapActions("addMenu", ["addToCart", "fetchItem","DeleteMenuItem"]),
     deleteFromMenu(Item,index){
@@ -527,6 +633,29 @@ export default {
       this.DeleteMenuItem(Item);
       
     },
+    search(){
+      for(const key in this.preview_list){
+        if(this.preview_list[key].MenuName==this.searchTerm){
+          this.Menu=this.preview_list.filter((el)=>{return el.MenuName===this.searchTerm})
+        }
+      }
+      // if(this.Menu.length==0){
+      //   alert("Please enter valid name")
+      // }
+      if(this.searchTerm==''){
+        this.Menu.pop()
+      }
+    //  const Find=this.preview_list.find((el)=>el.MenuName===this.searchTerm)
+    //  if(Find){
+    //   this.Menu.push(Find)
+    //   console.log(this.Menu)
+    //   console.log(this.searchTerm)
+    // }
+  },
+    //Back from search result
+    // Back(){
+    //   this.Menu.pop()
+    // },
     addCart(Item, index) {
       Item.var = index;
       this.addToCart(Item);
@@ -557,7 +686,6 @@ export default {
   width: 180px;
   height: 180px;
 }
-
 .v-image__image--cover {
   background-size: contain;
 }

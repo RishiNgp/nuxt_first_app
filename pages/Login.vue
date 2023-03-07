@@ -34,6 +34,7 @@
                         v-model="username"
                         :rules="loginEmailRules"
                         label="username*"
+                        variant="outlined"
                         required
                       />
                     </v-col>
@@ -45,6 +46,7 @@
                         :type="show3 ? 'text' : 'password'"
                         name="input-10-1"
                         label="Password*"
+                        variant="outlined"
                         hint="At least 6 characters"
                         counter
                         @click:append="show3 = !show3"
@@ -219,7 +221,18 @@ export default {
   },
   watch: {
     dialog() {
-      this.$refs.form.reset();
+      
+      
+
+
+
+
+
+
+
+
+
+      
       this.$refs.form.resetValidation();
     },
   },
