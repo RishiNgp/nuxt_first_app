@@ -6,13 +6,16 @@
       max-width="600px" 
       min-width="360px">
       <div>
+        <!-- background-color="deep-purple accent-4" -->
         <v-tabs
           v-model="tab"
           show-arrows
-          background-color="deep-purple accent-4"
+          background-color="#6f4e37"
+          cover
           icons-and-text
           dark
           grow
+          active-class
         >
           <v-tabs-slider color="purple darken-4" />
           <v-tab 
@@ -220,19 +223,7 @@ export default {
     },
   },
   watch: {
-    dialog() {
-      
-      
-
-
-
-
-
-
-
-
-
-      
+    dialog() { 
       this.$refs.form.resetValidation();
     },
   },
@@ -295,6 +286,17 @@ export default {
 };
 </script>
 <style scoped>
+#app{
+  /* background-color: black; */
+  width: 100%;
+  height: 100%;
+  background-image: url(../static/backroundImg.jpg);
+  background-size: cover;
+}
+#tabs{
+  background-image: url(../static/backroundImg.jpg);
+  background-size: cover;
+}
 div[aria-required="true"].v-input .v-label::after {
   content: " *";
   color: red;

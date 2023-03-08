@@ -11,15 +11,33 @@ Vue.toasted.register('my_app_error', 'Please enter correct username && password'
     // icon : 'hourglass_empty',
     theme: "bubble", 
     position: "top-center", 
-    duration : 5000,
+    duration : 2000,
     icon:"error_outline"
    
 })
 Vue.toasted.register('negative_valu_error','Value Cannot Be Less Than Zero',{
   theme: "bubble", 
   position: "top-center", 
-  duration : 5000,
+  duration : 500,
   icon:"error_outline"
+})
+Vue.toasted.register('ngegative_quantity','Quantity Should be greater than the Zero',{
+  theme:"bubble",
+  position:"top-center",
+  duration:2000,
+  icon:"warning"
+})
+Vue.toasted.register('success',(payload)=>{
+  if(payload.message){
+    return payload.message
+  }
+  return "Item added succeffuly"
+},
+{
+  theme:"outline",
+  position:"top-center",
+  duration:2000,
+  icon:"check"
 })
 
 export default ({app}, inject) => {

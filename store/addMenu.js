@@ -96,20 +96,28 @@ export const mutations = {
       cartName: addData.MenuName,
       cartPrice: addData.MenuPrice,
       cartCalories: addData.MenuCalories,
-      cartQuantity: addData.MenuQuantity,
+      cartQuantity: 1,
       cartImage: addData.MenuImage,
     };
-    if (state.cart.length == 0) {
-      state.cart.push(payload2);
-    } else {
-      const Find = state.cart.find((o) => o.cartName === payload2.cartName);
-      console.log("find",Find);
-      if (Find) {
-        alert("duplicate Item");
-      } else {
-        state.cart.push(payload2);
+
+    state.cart.push(payload2);
+    Vue.toasted.global.success(
+      {
+        message:'Item added sucessfully'
       }
-    }
+    );
+    console.log(state.cart)
+    // if (state.cart.length == 0) {
+    //   state.cart.push(payload2);
+    // } else {
+    //   const Find = state.cart.find((o) => o.cartName === payload2.cartName);
+    //   console.log("find",Find);
+    //   if (Find) {
+    //     alert("duplicate Item");
+    //   } else {
+    //     state.cart.push(payload2);
+    //   }
+    // }
   },
 
   //for ADDING QUANTITY
@@ -123,8 +131,9 @@ export const mutations = {
     } else {
       alert("sorry,this moment we can't take order more than that");
     }
-    state.cart[addData.var].cartPrice =
-      state.list[addData.var].dishPrice * state.cart[addData.var].cartQuantity;
+    const Find=state.list.find((el)=>{return el.dishName===addData.cartName})
+
+    state.cart[addData.var].cartPrice = Find.dishPrice * state.cart[addData.var].cartQuantity;
   },
 
   //for reducing quantity
@@ -132,8 +141,9 @@ export const mutations = {
     if (state.cart[addData.var].cartQuantity > 0) {
       state.cart[addData.var].cartQuantity =
         parseInt(state.cart[addData.var].cartQuantity) - 1;
+        const Find=state.list.find((el)=>{return el.dishName===addData.cartName})
       state.cart[addData.var].cartPrice =
-        parseInt(state.list[addData.var].dishPrice) *
+        Find.dishPrice *
         state.cart[addData.var].cartQuantity;
     } else {
       Vue.toasted.global.negative_valu_error();
@@ -149,7 +159,7 @@ export const mutations = {
       cartName: payload.dishName,
       cartPrice: payload.dishPrice,
       cartCalories: payload.dishCalories,
-      cartQuantity: payload.dishQuantity,
+      cartQuantity: 1,
       cartImage: image,
     };
 
@@ -186,6 +196,7 @@ export const mutations = {
 async setEditMenu(state, editData) {
      //converting image to blob file before storing 
        const image=URL.createObjectURL(editData.dishImage)
+       console.log(editData.dishItemNumber);
 
         state.menu[editData.dishItemNumber].MenuName = editData.dishName;
         state.menu[editData.dishItemNumber].MenuPrice = editData.dishPrice;
@@ -198,7 +209,7 @@ async setEditMenu(state, editData) {
         state.cart[editData.dishItemNumber].cartName = editData.dishName;
         state.cart[editData.dishItemNumber].cartPrice = editData.dishPrice;
         state.cart[editData.dishItemNumber].cartCalories = editData.dishCalories;
-        state.cart[editData.dishItemNumber].cartQuantity = editData.dishQuantity;
+        state.cart[editData.dishItemNumber].cartQuantity = 1;
         state.cart[editData.dishItemNumber].cartImage = image;
 
         //Updating Orignal List

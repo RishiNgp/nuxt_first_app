@@ -8,7 +8,9 @@ import Upload from './components/Upload'
 import Overview from './pages/Overview'
 import calendar from './pages/calendar'
 import faq from './pages/faq'
+import transcation from './pages/transcation'
 import testimontails from './pages/testimontails'
+import dashboard from './pages/dashboard'
 
 Vue.use(Router)
 
@@ -48,6 +50,14 @@ export function createRouter() {
         path: '/testimontails',
         component: testimontails
       },
+      {
+        path:'/transcation',
+        component:transcation
+      },
+      {
+        path:'/dashboard',
+        component:dashboard
+      }
 
     ]
   })

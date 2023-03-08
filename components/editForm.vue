@@ -32,7 +32,7 @@
                 >
                   <v-row>
                     <v-col cols="12">
-                      <v-text-field
+                      <!-- <v-text-field
                         v-model="List.dishItemNumber"
                         :rules="[rules.required]"
                         variant="outlined"
@@ -40,7 +40,7 @@
                         min="0"
                         label="ItemNo*"
                         required
-                      />
+                      /> -->
                     </v-col>
                     <v-col cols="12">
                       <v-text-field
@@ -69,7 +69,7 @@
                         :rules="[rules.required]"
                         label="Quantity*"
                         type="number"
-                        min="0"
+                        min="1"
                         required
                       />
                     </v-col>
@@ -160,7 +160,7 @@ export default {
       dishprice: "",
       dishname: "",
       dishimage: [],
-      dishItemNo: '',
+      dishItemNumber: '',
       dishcalories:'',
       dishquantity:'',
       dialog: true,
@@ -207,7 +207,7 @@ export default {
     editMenu() { 
       console.log(this.List)
       try {
-        if (this.$refs.editDishNameValid.validate()) {
+        if (this.$refs.editDishNameValid.validate()&&(this.List.dishQuantity>0)) {
           // const editData = {
           //   dishName: this.List.dishName,
           //   dishItemNumber: this.List.dishItemNumber,
@@ -219,6 +219,9 @@ export default {
           // console.log(editData);
           console.log("Inside if",this.List)
           this.actionEditMenu(this.List);
+          
+        }else{
+          this.$toasted.global.ngegative_quantity();
         }
       } catch (error) {
         console.log(error);

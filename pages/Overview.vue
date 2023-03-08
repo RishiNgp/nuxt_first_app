@@ -1,9 +1,11 @@
 <template>
-  <UnderDevelopment/> 
-  <!-- <h1>Not Defined</h1> -->
+  <v-app>
+    <SideBarRight/>
+    <SideBarLeft/>
+    <UnderDevelopment/>
+  </v-app>
 </template>
 <script>
 export default{
-    layout:"custom"
-    
+    layout:"custom"   
 }</script>

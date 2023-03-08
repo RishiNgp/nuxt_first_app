@@ -3,7 +3,6 @@
     <SideBarLeft />
     <SideBarRight />
     <v-container>
-
       <v-toolbar 
         flat 
         class="">
@@ -108,8 +107,7 @@
       </v-toolbar>
 
       <span v-if="preview_list[0] == null">
-        <v-row class="mt-n6">
-          
+        <v-row class="mt-n6">  
           <v-col 
             cols="12" 
             sm="4">
@@ -525,6 +523,9 @@
                   >
                     <v-img
                       :src="item.MenuImage"
+                      width="180px"
+                      height="180px"
+                      contain
                     />
                     
                   </div>
@@ -682,7 +683,7 @@ export default {
 };
 </script>
 <style>
-.v-responsive__sizer {
+/* .v-responsive__sizer {
   width: 180px;
   height: 180px;
 }
@@ -691,5 +692,5 @@ export default {
 }
 .v-responsive__content {
   width: auto !important;
-}
+} */
 </style>

@@ -1,36 +1,34 @@
 <template>
   <div>
-    <template>
-      <div class="fx">
-        <div class="text-md-center">
-          <h1>503</h1>
-          <h2 class="my-3 headline ">Sorry, page is UnderDevelopment</h2>
-          <div>
-            <button 
-              class="button" 
-              @click="goHome">Go Menu</button>
-          </div>
+    <div class="fx">
+      <div class="text-md-center">
+        <h1>503</h1>
+        <h2 class="my-3 headline ">Sorry, page is UnderDevelopment</h2>
+        <div>
+          <button 
+            class="button" 
+            @click="goHome">Go Menu</button>
         </div>
       </div>
-    </template>
+    </div>
   </div>
-</template>
-  
+</template> 
   <script>
   export default {
-    props: {
-      error: {
-        type: String,
-        required: true,
-      },
-    },
+    // props: {
+    //     error: {
+    //         type: String,
+    //         required: true,
+    //     },
+    // },
     methods: {
-      goHome() {
-        this.$router.push({ path: '/menu' })
-      }
+        goHome() {
+            this.$router.push({ path: "/menu" });
+        }
     },
-    layout: 'default' // you can set a custom layout for the error page
-  }
+    layout: "custom" // you can set a custom layout for the error page
+    ,
+}
   </script>
   
   <style scoped lang="css">

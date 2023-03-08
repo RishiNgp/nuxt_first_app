@@ -1,12 +1,13 @@
 <template>
-  <div>
-    <div id="header"><Navi /></div>
-    
+  <v-app>
+    <sideBarLeft/>
+    <Navi />
+    <!-- <div id="header"></div> -->
     <div id="main">
       <nuxt />
     </div>
     <div id="footer">Footer by comp.</div>
-  </div>
+  </v-app>
 </template>
 <script>
 import Navi from "../components/Navi.vue";
