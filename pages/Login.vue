@@ -243,7 +243,7 @@ export default {
       try{
         if(this.$refs.loginForm.validate()){
           await this.Userlogin(User)
-          this.$router.push("/home");
+          this.$router.push("/menu");
         }
 
       }catch(error){
@@ -269,7 +269,7 @@ export default {
       try{
         if(this.$refs.registerForm.validate()){
           await this.UserRegister(form);
-          this.$router.push("/home");
+          this.$router.push("/menu");
         }
 
       }catch(error){

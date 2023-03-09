@@ -1,10 +1,8 @@
 <template>
   <v-app>
-    <SideBarLeft />
-    <v-content>
-      <v-system-bar 
-        lights-out 
-        height="21">
+    <v-main class="main">
+      <SideBarLeft />
+      <v-app-bar height="55">
         <v-spacer />
         <v-btn icon>
           <v-icon>fa fa-search</v-icon>
@@ -32,49 +30,63 @@
             <v-img src="https://cdn.vuetifyjs.com/images/lists/2.jpg" />
           </v-avatar>
         </v-badge>
-      </v-system-bar>
-      <v-divider/>
+      </v-app-bar>
       <v-container fluid>
-        <v-row
-          style="height: 10vh">
-          <v-col
-            cols="12"
-            lg="4"
-            sm="4">
+        <v-row>
+          <v-col 
+            cols="12" 
+            xl="4" 
+            lg="4" 
+            md="12" 
+            sm="12">
             <h1>DASHBOARD</h1>
           </v-col>
-          <v-col
-            cols="12"
-            lg="2"
-            sm="2">
-            <v-text-field
+          <v-col 
+            cols="12" 
+            xl="2" 
+            lg="2" 
+            md="4" 
+            sm="4">
+            <v-select
+              :items="[
+                '4/01/2023',
+                '5/02/2023',
+                '6/03/2021',
+                '1/09/2016',
+                '1/04/2019',
+                '2/05/2025',
+              ]"
+              color="red"
+              bg-color="white"
               filled
               rounded
               dense
-              solo
               flat
-              background-color="grey lighten-3"/>
+              label="Select"
+              variant="solo"
+            />
           </v-col>
         </v-row>
       </v-container>
       <v-container fluid>
-        <v-row 
-          style="height: 40vh">
+        <v-row>
           <v-col 
             cols="12" 
-            sm="8"
-            lg="8">
+            xl="8" 
+            md="12" 
+            sm="12" 
+            lg="8" 
+            xs="12">
             <v-card 
-              class="rounded-xl"
+              class="rounded-xl" 
               height="100%">
               <v-app-bar 
                 flat 
                 color="rgba(0,0,0,0)">
-                <h1>Top selling Products</h1>
+                <h3>Top selling Products</h3>
                 <v-spacer />
-                <h5
-                  style="color: red;"
-                >export
+                <h5 style="color: red">
+                  export
                   <v-icon 
                     small 
                     color="red">fa fa-download</v-icon>
@@ -83,129 +95,406 @@
               <v-data-table
                 :headers="headers"
                 :items="desserts"
+                class="truncate"
                 hide-default-footer
               />
             </v-card>
           </v-col>
-          <v-col
-            cols="12"
-            sm="4"
-            lg="4">
-            <v-card
-              height="100%"
+          <v-col 
+            cols="12" 
+            xl="4" 
+            sm="12" 
+            md="12" 
+            lg="4" 
+            xs="12">
+            <v-card 
+              height="100%" 
               class="rounded-xl">
-              <v-app-bar
-                flat
-                color="rgba(0,0,0,0)">
-                <p>Total Sales</p>
-              </v-app-bar>
-              <apexchart 
-                :options="chartOptions" 
-                :series="series" 
-                type="pie" 
-                width="380"/>
               <v-app-bar 
                 flat 
                 color="rgba(0,0,0,0)">
+                <p>Total Sales</p>
+              </v-app-bar>
+              <apexchart
+                :options="chartOptions"
+                :series="series"
+                type="pie"
+                width="80%"
+              />
+              <!-- <v-app-bar 
+                flat 
+                color="rgba(0,0,0,0)">
                 <v-badge 
-                  left
+                  left 
                   color="red" 
                   dot>
                   <p>Direct</p>
                 </v-badge>
-              </v-app-bar>
+              </v-app-bar> -->
             </v-card>
           </v-col>
         </v-row>
       </v-container>
-    </v-content>
+      <v-container fluid>
+        <v-row>
+          <v-col 
+            cols="12" 
+            xl="6" 
+            lg="6" 
+            md="6" 
+            sm="12" 
+            xs="12">
+            <v-row>
+              <v-col 
+                cols="12" 
+                xl="6" 
+                lg="6" 
+                md="6" 
+                sm="6" 
+                xs="6">
+                <v-card 
+                  height="100%" 
+                  class="rounded-xl">
+                  <v-app-bar 
+                    flat 
+                    color="rgba(0,0,0,0)">
+                    <h3>Customers</h3>
+                  </v-app-bar>
+                  <p class="number">39400</p>
+                  <p 
+                    class="number1" 
+                    style="color: green">
+                    <v-icon 
+                      small 
+                      color="green">fa-thin fa-arrow-up</v-icon
+                    >6.12%
+                  </p>
+                  <v-app-bar 
+                    flat 
+                    color="rgba(0,0,0,0)">
+                    <p>Since Last Month</p>
+                  </v-app-bar>
+                </v-card>
+              </v-col>
+              <v-col 
+                cols="12" 
+                xl="6" 
+                lg="6" 
+                md="6" 
+                sm="6" 
+                xs="6">
+                <v-card 
+                  height="100%" 
+                  class="rounded-xl">
+                  <v-app-bar 
+                    flat 
+                    color="rgba(0,0,0,0)">
+                    <h3>Order</h3>
+                  </v-app-bar>
+                  <p class="number">39400</p>
+                  <p 
+                    class="number1" 
+                    style="color: red">
+                    <v-icon 
+                      small 
+                      color="red">fa-thin fa-arrow-down</v-icon
+                    >0.98%
+                  </p>
+                  <v-app-bar 
+                    flat 
+                    color="rgba(0,0,0,0)">
+                    <p>Since Last Month</p>
+                  </v-app-bar>
+                </v-card>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col 
+                cols="12" 
+                xl="6" 
+                md="6" 
+                lg="6" 
+                sm="6" 
+                xs="6">
+                <v-card 
+                  height="100%" 
+                  class="rounded-xl">
+                  <v-app-bar 
+                    flat 
+                    color="rgba(0,0,0,0)">
+                    <h3>Earning</h3>
+                  </v-app-bar>
+                  <p class="number">39400</p>
+                  <p 
+                    class="number1" 
+                    style="color: red">
+                    <v-icon 
+                      small 
+                      color="red">fa-thin fa-arrow-down</v-icon
+                    >8.33%
+                  </p>
+                  <v-app-bar 
+                    flat 
+                    color="rgba(0,0,0,0)">
+                    <p>Since Last Month</p>
+                  </v-app-bar>
+                </v-card>
+              </v-col>
+              <v-col 
+                cols="12" 
+                xl="6" 
+                lg="6" 
+                md="6" 
+                sm="6" 
+                xs="6">
+                <v-card 
+                  height="100%" 
+                  class="rounded-xl">
+                  <v-app-bar 
+                    flat 
+                    color="rgba(0,0,0,0)">
+                    <h3>Growth</h3>
+                  </v-app-bar>
+                  <p class="number">39400</p>
+                  <p 
+                    style="color: green" 
+                    class="number1">
+                    <v-icon 
+                      small 
+                      color="green">fa-thin fa-arrow-up</v-icon
+                    >6.12%
+                  </p>
+                  <v-app-bar 
+                    flat 
+                    color="rgba(0,0,0,0)">
+                    <p>Since Last Month</p>
+                  </v-app-bar>
+                </v-card>
+              </v-col>
+            </v-row>
+          </v-col>
+          <v-col 
+            cols="12" 
+            xl="6" 
+            lg="6" 
+            md="6" 
+            sm="12" 
+            xs="12">
+            <v-card 
+              height="100%" 
+              class="rounded-xl">
+              <v-app-bar 
+                flat 
+                color="rgba(0,0,0,0)">
+                <h3>REVENUE</h3>
+              </v-app-bar>
+              <apexchart
+                :options="chartOptions1"
+                :series="series1"
+                
+                width="80%"
+                height="80%"
+              />
+              <!-- <v-app-bar 
+                flat 
+                color="rgba(0,0,0,0)">
+                <v-row>
+                  <v-col>
+                    <P>current week</P>
+                    <v-col>
+                      <h5>39400</h5>
+                    </v-col>
+                  </v-col>
+                  <v-col>
+                    <p>previous week</p>
+                  </v-col>
+                </v-row>
+              </v-app-bar> -->
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-main>
   </v-app>
 </template>
 <script>
-import VueApexCharts from 'vue-apexcharts'
+import VueApexCharts from "vue-apexcharts";
 export default {
   layout: "custom",
-  components:{
+  components: {
     apexchart: VueApexCharts,
   },
   data() {
     return {
-        series: [44, 55, 13, 43, 22],
-          chartOptions: {
-            chart: {
-              width: 380,
-              type: 'pie',
-            },
-                // labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
-            responsive: [{
-              breakpoint: 480,
-              options: {
-                chart: {
-                  width: 200
-                },
-                legend: {
-                  position: 'bottom'
-                }
-              }
-            }]
+      series1: [
+        {
+          name: "sales",
+          data: [0, 650, 13244, 9000, 1700],
         },
+      ],
+      chartOptions1: {
+        // legend: {
+        //   horizontalAlign: "left",
+        //   offsetX: 40,
+        //   // show:true
+        // },
+        chart: {
+          //  width:520,
+          type: "line",
+        },
+        legend: {
+  showForSingleSeries: true,
+  position:"top",
+  horizontalAlign: "left",
+  offsetX: 40,
+  fontSize: '30px',
+  labels: {
+          // colors: "rgb(0,0)",
+          // useSeriesColors: false
+      },
+},
+        stroke: {
+          curve: "smooth",
+        },
+        xaxis: {
+          categories: ["Mon", "Tue", "Wed", "Thu", "Fri"],
+        },
+
+        responsive: [
+          {
+            breakpoint: 1000,
+            options: {
+              chart: {
+                // width:100,
+                height: 460,
+              },
+            },
+          },
+        ],
+      },
+      series: [44, 55, 13, 43, 22],
+      chartOptions: {
+        chart: {
+          // width: 360,
+          type: "pie",
+        },
+        labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
+        responsive: [
+          {
+            // breakpoint: 1000,
+            // options: {
+            //   chart: {
+            //     width: 280,
+            //     height:280
+            //   },
+            //   legend: {
+            //     position: "bottom",
+            //   },
+            // },
+            breakpoint: 420,
+            options: {
+              chart: {
+                width: 310,
+              },
+              legend: {
+                position: "bottom",
+              },
+            },
+          },
+        ],
+      },
       headers: [
         {
-          text: "Dessert (100g serving)",
+          text: "PRODUCT NAME",
           align: "start",
           sortable: false,
           value: "name",
         },
-        { text: "Calories", value: "calories" },
-        { text: "Fat (g)", value: "fat" },
-        { text: "Carbs (g)", value: "carbs" },
-        { text: "Protein (g)", value: "protein" },
-        { text: "Iron (%)", value: "iron" },
+        { text: "DATE TIME", value: "date" },
+        { text: "PRICE", value: "price" },
+        { text: "QUANTITY", value: "quantity" },
+        { text: "AMOUNT", value: "amount" },
       ],
       desserts: [
-      {
-            name: 'Frozen Yogurt',
-            calories: 159,
-            fat: 6.0,
-            carbs: 24,
-            protein: 4.0,
-            iron: 1,
-          },
-          {
-            name: 'Ice cream sandwich',
-            calories: 237,
-            fat: 9.0,
-            carbs: 37,
-            protein: 4.3,
-            iron: 1,
-          },
-          {
-            name: 'Eclair',
-            calories: 262,
-            fat: 16.0,
-            carbs: 23,
-            protein: 6.0,
-            iron: 7,
-          },
-          {
-            name: 'Cupcake',
-            calories: 305,
-            fat: 3.7,
-            carbs: 67,
-            protein: 4.3,
-            iron: 8,
-          },
-          {
-            name: 'Gingerbread',
-            calories: 356,
-            fat: 16.0,
-            carbs: 49,
-            protein: 3.9,
-            iron: 16,
-          },
-
+        {
+          name: "Canon DSLR Camera",
+          date: "03 january 2023",
+          price: 12456,
+          quantity: 24,
+          amount: 1232312,
+        },
+        {
+          name: "Ice cream sandwich",
+          date: "03 january 2023",
+          price: 23546,
+          quantity: 37,
+          amount: 1435467,
+        },
+        {
+          name: "Eclair",
+          date: "03 january 2023",
+          price: 34524,
+          quantity: 23,
+          amount: 1234356,
+        },
+        {
+          name: "Cupcake",
+          date: "03 january 2023",
+          price: 123245,
+          quantity: 67,
+          amount: 1232445,
+        },
+        {
+          name: "Gingerbread",
+          date: "03 january 2023",
+          price: 1237,
+          quantity: 49,
+          amount: 2213134,
+        },
       ],
     };
   },
 };
 </script>
+<style scoped>
+#app {
+  /* background-color: black; */
+  width: 100%;
+  height: 100%;
+  background-color: rgb(233, 232, 232);
+  background-size: cover;
+  /* background-repeat: inherit; */
+  /* overflow-y: scroll; */
+}
+.number {
+  margin-left: 16px;
+  font-size: 200%;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: rgb(85, 79, 79);
+
+}
+.number1 {
+  margin: 8px;
+  color: rgb(85, 79, 79);
+
+}
+h1 {
+  font-size: 200%;
+  color: rgb(85, 79, 79);
+}
+h3 {
+  font-size: 150%;
+  color: rgb(85, 79, 79);
+
+}
+/* .main{
+  display: flex;
+} */
+.truncate {
+  max-width: 100%;
+  /* table-layout: fixed; */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+</style>

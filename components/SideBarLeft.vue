@@ -33,19 +33,19 @@
     </v-list>
   </v-navigation-drawer>
 </template>
-
 <script>
 export default {
   data: () => ({
     selectedItem: 0,
     items: [
-      {icon:"fa fa-home",text:"HOME",route:"/home"},
+      // {icon:"fa fa-home",text:"HOME",route:"/home"},
+      { icon: "fas fa-bars", text: "MENU", route: "/menu" },
       {icon:"fa fa-dashboard",text:"DASHBOARD",route:"/dashboard"},
 
       
       { icon: "fas fa-shipping-fast", 
       text: "OVERVIEW", route: "/overview" },
-      { icon: "fas fa-bars", text: "MENU", route: "/menu" },
+      
       {
         icon: "fas fa-dollar-sign",
         text: "TRANSACTION",
@@ -54,8 +54,21 @@ export default {
       { icon: "fas fa-calendar-alt", text: "CALENDAR", route: "/calendar" },
       { icon: "fas fa-cogs", text: "TESTIMONIALS", route: "/testimontails" },
       { icon: "fas fa-question", text: "FAQ", route: "/faq" },
+      {icon:"fas fa-sign-out",text:"Logout",route:"/"}
       // {icon:"fa fa-home",text:"HOME",route:"/logout"},
     ],
   }),
 };
 </script>
+<style>
+a.nuxt-link-active {
+  font-weight: bold;
+}
+a.nuxt-link-exact-active {
+  color: #022e21;
+}
+a:visited {
+  text-decoration: none;
+  color: inherit;
+}
+</style>
