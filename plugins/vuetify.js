@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuetify from "vuetify";
-import VInput from "vuetify/lib/components/VInput/VInput.js";
+// import VInput from "vuetify/lib/components/VInput/VInput.js";
 
 //import colors from './../config/colors'
 import '@fortawesome/fontawesome-free/css/all.css'
