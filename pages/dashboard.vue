@@ -2,7 +2,10 @@
   <v-app>
     <v-main class="main">
       <SideBarLeft />
-      <v-app-bar height="55">
+      <v-app-bar 
+        color="rgba(0,0,0,0)" 
+        flat 
+        height="55">
         <v-spacer />
         <v-btn icon>
           <v-icon>fa fa-search</v-icon>
@@ -288,14 +291,18 @@
                 color="rgba(0,0,0,0)">
                 <h3>REVENUE</h3>
               </v-app-bar>
-              <apexchart
+              <!-- <apexchart
                 :options="chartOptions1"
                 :series="series1"
                 
                 width="80%"
                 height="80%"
-              />
-              <!-- <v-app-bar 
+              /> -->
+              <div 
+                id="container" 
+                style="width: 90%; height: 80%" />
+
+                <!-- <v-app-bar 
                 flat 
                 color="rgba(0,0,0,0)">
                 <v-row>
@@ -319,6 +326,10 @@
 </template>
 <script>
 import VueApexCharts from "vue-apexcharts";
+import Highcharts from "highcharts";
+import {chartData} from "../static/chartData";
+// import chartData from "../static/chartData";
+import moment from 'moment';
 export default {
   layout: "custom",
   components: {
@@ -326,52 +337,53 @@ export default {
   },
   data() {
     return {
-      series1: [
-        {
-          name: "sales",
-          data: [0, 650, 13244, 9000, 1700],
-        },
-      ],
-      chartOptions1: {
-        // legend: {
-        //   horizontalAlign: "left",
-        //   offsetX: 40,
-        //   // show:true
-        // },
-        chart: {
-          //  width:520,
-          type: "line",
-        },
-        legend: {
-  showForSingleSeries: true,
-  position:"top",
-  horizontalAlign: "left",
-  offsetX: 40,
-  fontSize: '30px',
-  labels: {
-          // colors: "rgb(0,0)",
-          // useSeriesColors: false
-      },
-},
-        stroke: {
-          curve: "smooth",
-        },
-        xaxis: {
-          categories: ["Mon", "Tue", "Wed", "Thu", "Fri"],
-        },
+      
+      // series1: [
+      //   {
+      //     name: "sales",
+      //     data: [0, 650, 13244, 9000, 1700],
+      //   },
+      // ],
+      // chartOptions1: {
+      //   // legend: {
+      //   //   horizontalAlign: "left",
+      //   //   offsetX: 40,
+      //   //   // show:true
+      //   // },
+      //   chart: {
+      //     //  width:520,
+      //     type: "line",
+      //   },
+      //   legend: {
+      //     showForSingleSeries: true,
+      //     position: "top",
+      //     horizontalAlign: "left",
+      //     offsetX: 40,
+      //     fontSize: "30px",
+      //     labels: {
+      //       // colors: "rgb(0,0)",
+      //       // useSeriesColors: false
+      //     },
+      //   },
+      //   stroke: {
+      //     curve: "smooth",
+      //   },
+      //   xaxis: {
+      //     categories: ["Mon", "Tue", "Wed", "Thu", "Fri"],
+      //   },
 
-        responsive: [
-          {
-            breakpoint: 1000,
-            options: {
-              chart: {
-                // width:100,
-                height: 460,
-              },
-            },
-          },
-        ],
-      },
+      //   responsive: [
+      //     {
+      //       breakpoint: 1000,
+      //       options: {
+      //         chart: {
+      //           // width:100,
+      //           height: 460,
+      //         },
+      //       },
+      //     },
+      //   ],
+      // },
       series: [44, 55, 13, 43, 22],
       chartOptions: {
         chart: {
@@ -454,6 +466,94 @@ export default {
       ],
     };
   },
+  mounted() {
+    this.DOMContentLoaded();
+  },
+  methods: {
+    DOMContentLoaded() {
+      Highcharts.setOptions({
+        global: {
+          useUTC: false,
+        },
+      });
+      Highcharts.chart("container", {
+          chart: {
+          type: 'spline',
+          zoomType: "x",
+          resetZoomButton: {
+            position: {
+              x: -10,
+              y: 10,
+            },
+            theme: {
+              zIndex: 6,
+            },
+          },
+        },
+        spline: {
+          interpolation: {
+            type: "monotone",
+          },
+        },
+        
+        title: {
+          text: "Gateway Monitor",
+        },
+        tooltip: {
+            formatter: function() {
+                return '<span style="color:' + this.series.color + '">' +'\u25CF' + '' + this.series.name + '</span>'+ '<b>'+ ': '+ this.y.toFixed(6) + '</b><br/>' +
+                    Highcharts.dateFormat('%Y-%b-%e %H:%M:%S',
+                                          new Date(this.x)) 
+            }
+        },
+        credits: {
+          enabled: false,
+        },
+        xAxis: {
+          type: "datetime",
+        },
+        legend: {
+          layout: "horizontal",
+          align: "center",
+          verticalAlign: "bottom",
+        },
+        plotOptions: {
+          series: {
+            marker: {
+              radius: 3,
+            },
+            states: {
+              inactive: {
+                opacity: 1,
+              },
+            },
+        },
+      },
+        series: [
+          {
+            name: "temperature",
+            data: chartData.data.map(object=>{return [moment(object.timestamp,"YYYY-MM-DD HH:mm:ss").unix()*1000, object.temperature]})
+          },
+          {
+            name: "humidity",
+            data: chartData.data.map(object=>{return [moment(object.timestamp,"YYYY-MM-DD HH:mm:ss").unix()*1000, object.humidity]})
+          },
+          {
+            name: "pressure",
+            data: chartData.data.map(object=>{return [moment(object.timestamp,"YYYY-MM-DD HH:mm:ss").unix()*1000, object.pressure]})
+          },
+          {
+            name: "lumen",
+            data:chartData.data.map(object=>{return [moment(object.timestamp,"YYYY-MM-DD HH:mm:ss").unix()*1000, object.lumen]})
+          },
+          {
+            name: "decibels",
+            data: chartData.data.map(object=>{return [moment(object.timestamp,"YYYY-MM-DD HH:mm:ss").unix()*1000, object.decibels]})
+          },
+        ],
+      });
+    },
+  },
 };
 </script>
 <style scoped>
@@ -471,12 +571,10 @@ export default {
   font-size: 200%;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   color: rgb(85, 79, 79);
-
 }
 .number1 {
   margin: 8px;
   color: rgb(85, 79, 79);
-
 }
 h1 {
   font-size: 200%;
@@ -485,7 +583,6 @@ h1 {
 h3 {
   font-size: 150%;
   color: rgb(85, 79, 79);
-
 }
 /* .main{
   display: flex;
