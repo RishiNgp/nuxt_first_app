@@ -286,11 +286,138 @@
             <v-card 
               height="100%" 
               class="rounded-xl">
-              <v-app-bar 
+              <!-- <v-app-bar 
                 flat 
-                color="rgba(0,0,0,0)">
-                <h3>REVENUE</h3>
-              </v-app-bar>
+                color="rgba(0,0,0,0)"> -->
+              <div class="row">
+                <div class="col d-flex">
+                  <div class="mr-2">
+                    <div class="d-flex">
+                      <div class="pdfCalendar">
+                        <v-icon
+                          style="font-size: 21px !important"
+                          @click="modalStartDate = true"
+                        >calendar_today</v-icon
+                        >
+                      </div>
+                      &nbsp;
+                      <div class="w-100">
+                        <v-text-field
+                          v-model="startDate"
+                          class="csvDate"
+                          label="Start Date*"
+                          readonly
+                          outlined
+                          dense
+                          @click="modalStartDate = true"
+                        />
+                      </div>
+                    </div>
+                    <v-dialog
+                      ref="dialog"
+                      v-model="modalStartDate"
+                      :return-value.sync="startDate"
+                      persistent
+                      width="290px"
+                    >
+                      <v-date-picker
+                        v-model="startDate"
+                        :max="disableDate"
+                        scrollable
+                      >
+                        <v-spacer />
+                        <v-btn
+                          class="btn btn__secondary"
+                          @click="modalStartDate = false"
+                        >Cancel</v-btn
+                        >
+                        <v-btn
+                          class="btn btn__primary"
+                          @click="
+                            validateDate(endDate);
+                            $refs.dialog.save(startDate);
+                            modalStartDate = false;
+                            endDate ? DOMContentLoaded():'';
+                          "
+                        >OK</v-btn
+                        >
+                      </v-date-picker>
+                    </v-dialog>
+                  </div>
+
+                  <div class="ml-2">
+                    <div class="d-flex">
+                      <div class="pdfCalendar">
+                        <v-icon
+                          :disabled="!startDate"
+                          style="font-size: 21px !important"
+                          @click="
+                            getEndDate(startDate);
+                            modalEndDate = true;
+                          "
+                        >calendar_today</v-icon
+                        >
+                      </div>
+                      &nbsp;
+                      <div class="w-100">
+                        <v-text-field
+                          v-model="endDate"
+                          :disabled="!startDate"
+                          class="csvDate"
+                          label="End Date*"
+                          outlined
+                          readonly
+                          dense
+                          @click="getEndDate(startDate);modalEndDate = true"
+                        />
+                      </div>
+                    </div>
+                    <v-dialog
+                      ref="dialogEnd"
+                      v-model="modalEndDate"
+                      :return-value.sync="endDate"
+                      persistent
+                      width="290px"
+                    >
+                      <v-date-picker
+                        v-model="endDate"
+                        :min="startDate"
+                        :max="disableEndDate"
+                        scrollable
+                      >
+                        <v-spacer />
+                        <v-btn
+                          class="btn btn__secondary"
+                          @click="modalEndDate = false"
+                        >Cancel</v-btn
+                        >
+                        <v-btn
+                          class="btn btn__primary"
+                          @click="
+                            $refs.dialogEnd.save(endDate);
+                            modalEndDate = false;
+                            DOMContentLoaded()
+                          "
+                        >OK</v-btn
+                        >
+                      </v-date-picker>
+                    </v-dialog>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="col-md-6 py-0">
+                  <v-btn
+                    :disabled="!endDate"
+                    class="btn btn__primary btn--lg w-100"
+                    @click="
+                      pageNumber = 1;
+                      searchValue = '';
+                      DOMContentLoaded();
+                    "
+                  >Submit</v-btn
+                  >
+                </div> -->
+              <!-- </v-app-bar> -->
               <!-- <apexchart
                 :options="chartOptions1"
                 :series="series1"
@@ -300,7 +427,7 @@
               /> -->
               <div 
                 id="container" 
-                style="width: 90%; height: 80%" />
+                style="width: 85%; height: 80%" />
 
                 <!-- <v-app-bar 
                 flat 
@@ -327,9 +454,9 @@
 <script>
 import VueApexCharts from "vue-apexcharts";
 import Highcharts from "highcharts";
-import {chartData} from "../static/chartData";
+import { chartData } from "../static/chartData";
 // import chartData from "../static/chartData";
-import moment from 'moment';
+import moment from "moment";
 export default {
   layout: "custom",
   components: {
@@ -337,53 +464,13 @@ export default {
   },
   data() {
     return {
-      
-      // series1: [
-      //   {
-      //     name: "sales",
-      //     data: [0, 650, 13244, 9000, 1700],
-      //   },
-      // ],
-      // chartOptions1: {
-      //   // legend: {
-      //   //   horizontalAlign: "left",
-      //   //   offsetX: 40,
-      //   //   // show:true
-      //   // },
-      //   chart: {
-      //     //  width:520,
-      //     type: "line",
-      //   },
-      //   legend: {
-      //     showForSingleSeries: true,
-      //     position: "top",
-      //     horizontalAlign: "left",
-      //     offsetX: 40,
-      //     fontSize: "30px",
-      //     labels: {
-      //       // colors: "rgb(0,0)",
-      //       // useSeriesColors: false
-      //     },
-      //   },
-      //   stroke: {
-      //     curve: "smooth",
-      //   },
-      //   xaxis: {
-      //     categories: ["Mon", "Tue", "Wed", "Thu", "Fri"],
-      //   },
-
-      //   responsive: [
-      //     {
-      //       breakpoint: 1000,
-      //       options: {
-      //         chart: {
-      //           // width:100,
-      //           height: 460,
-      //         },
-      //       },
-      //     },
-      //   ],
-      // },
+      modalStartDate: false,
+      startDate: "",
+      endDate: "",
+      modalEndDate: false,
+      disableDate: new Date().toISOString().substr(0, 10),
+      disableEndDate:'',
+      timestamp:'',
       series: [44, 55, 13, 43, 22],
       chartOptions: {
         chart: {
@@ -466,23 +553,49 @@ export default {
       ],
     };
   },
-  mounted() {
-    this.DOMContentLoaded();
-  },
+  // mounted() {
+
+  // },
   methods: {
+    getEndDate(startDate) {
+      const getNext30Day = moment(startDate, "YYYY-MM-DD")
+        .add(30, "d")
+        .format("YYYY-MM-DD");
+      if (getNext30Day > this.disableDate) {
+        this.disableEndDate = this.disableDate;
+      } else {
+        this.disableEndDate = getNext30Day;
+      }
+      return getNext30Day;
+    },
+    validateDate(endDate) {
+      if (
+        endDate &&
+        (endDate < this.startDate || this.getEndDate(this.startDate) < endDate)
+      ) {
+        this.endDate = "";
+      }
+    },
     DOMContentLoaded() {
+      const x=chartData.data.filter((object)=>object.timestamp>=this.startDate&& object.timestamp<this.endDate).map((object) => {
+              return [
+                moment(object.timestamp, "YYYY-MM-DD HH:mm:ss").unix() * 1000,
+                object.humidity,
+              ];
+      })
+      console.log("DATA",x);
       Highcharts.setOptions({
         global: {
           useUTC: false,
         },
       });
       Highcharts.chart("container", {
-          chart: {
-          type: 'spline',
+        chart: {
+          type: "spline",
           zoomType: "x",
           resetZoomButton: {
             position: {
-              x: -10,
+              x: -100,
               y: 10,
             },
             theme: {
@@ -495,16 +608,27 @@ export default {
             type: "monotone",
           },
         },
-        
+
         title: {
           text: "Gateway Monitor",
         },
         tooltip: {
-            formatter: function() {
-                return '<span style="color:' + this.series.color + '">' +'\u25CF' + '' + this.series.name + '</span>'+ '<b>'+ ': '+ this.y.toFixed(6) + '</b><br/>' +
-                    Highcharts.dateFormat('%Y-%b-%e %H:%M:%S',
-                                          new Date(this.x)) 
-            }
+          formatter: function () {
+            return (
+              '<span style="color:' +
+              this.series.color +
+              '">' +
+              "\u25CF" +
+              "" +
+              this.series.name +
+              "</span>" +
+              "<b>" +
+              ": " +
+              this.y.toFixed(6) +
+              "</b><br/>" +
+              Highcharts.dateFormat("%Y-%b-%e %H:%M:%S", new Date(this.x))
+            );
+          },
         },
         credits: {
           enabled: false,
@@ -527,28 +651,58 @@ export default {
                 opacity: 1,
               },
             },
+          },
         },
-      },
         series: [
           {
             name: "temperature",
-            data: chartData.data.map(object=>{return [moment(object.timestamp,"YYYY-MM-DD HH:mm:ss").unix()*1000, object.temperature]})
+            data: chartData.data.filter((object)=>object.timestamp>=this.startDate&& object.timestamp<this.endDate).map((object) => {
+              return [
+                moment(object.timestamp, "YYYY-MM-DD HH:mm:ss").unix() * 1000,
+                object.temperature,
+              ];
+            }),
+            color: "red",
           },
           {
             name: "humidity",
-            data: chartData.data.map(object=>{return [moment(object.timestamp,"YYYY-MM-DD HH:mm:ss").unix()*1000, object.humidity]})
+            data: chartData.data.filter((object)=>object.timestamp>=this.startDate&& object.timestamp<this.endDate).map((object) => {
+              return [
+                moment(object.timestamp, "YYYY-MM-DD HH:mm:ss").unix() * 1000,
+                object.humidity,
+              ];
+            }),
+            color: "yellow",
           },
           {
             name: "pressure",
-            data: chartData.data.map(object=>{return [moment(object.timestamp,"YYYY-MM-DD HH:mm:ss").unix()*1000, object.pressure]})
+            data: chartData.data.filter((object)=>object.timestamp>=this.startDate&& object.timestamp<this.endDate).map((object) => {
+              return [
+                moment(object.timestamp, "YYYY-MM-DD HH:mm:ss").unix() * 1000,
+                object.pressure,
+              ];
+            }),
+            color: "orange",
           },
           {
             name: "lumen",
-            data:chartData.data.map(object=>{return [moment(object.timestamp,"YYYY-MM-DD HH:mm:ss").unix()*1000, object.lumen]})
+            data: chartData.data.filter((object)=>object.timestamp>=this.startDate&& object.timestamp<this.endDate).map((object) => {
+              return [
+                moment(object.timestamp, "YYYY-MM-DD HH:mm:ss").unix() * 1000,
+                object.lumen,
+              ];
+            }),
+            color: "green",
           },
           {
             name: "decibels",
-            data: chartData.data.map(object=>{return [moment(object.timestamp,"YYYY-MM-DD HH:mm:ss").unix()*1000, object.decibels]})
+            data: chartData.data.filter((object)=>object.timestamp>=this.startDate&& object.timestamp<this.endDate).map((object) => {
+              return [
+                moment(object.timestamp, "YYYY-MM-DD HH:mm:ss").unix() * 1000,
+                object.decibels,
+              ];
+            }),
+            color: "blue",
           },
         ],
       });
